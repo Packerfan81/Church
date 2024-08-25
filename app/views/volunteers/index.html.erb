@@ -1,0 +1,39 @@
+<h1>Volunteers</h1>
+
+<% if @volunteers.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @volunteers.each do |volunteer| %>
+        <tr>
+          <td><%= volunteer.full_name %></td>
+          <td><%= volunteer.email %></td>
+          <td><%= volunteer.phone_number %></td>
+          <td>
+            <%= link_to 'Show', volunteer %>
+            <% if policy(volunteer).edit? %>
+              <%= link_to 'Edit', edit_volunteer_path(volunteer) %>
+            <% end %>
+            <% if policy(volunteer).destroy? %>
+              <%= link_to 'Destroy', volunteer, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No volunteers found.</p>
+<% end %>
+
+<% if policy(Volunteer).new? %>
+  <%= link_to 'New Volunteer', new_volunteer_path %>
+<% end %>

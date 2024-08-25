@@ -1,0 +1,8 @@
+<h1>Check In Details</h1>
+
+<p>Child: <%= @check_in.child.full_name %></p>
+<p>Volunteer: <%= @check_in.volunteer&.full_name || 'N/A' %></p>
+<p>Check-in Time: <%= @check_in.check_in_time %></p>
+</div>
+
+<%= link_to "Edit", edit_check_in_path(@check_in) %>

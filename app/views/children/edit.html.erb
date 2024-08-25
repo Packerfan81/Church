@@ -1,0 +1,44 @@
+<h1>Edit Child</h1>
+
+<%= form_with(model: @child,<%= link_to "Edit Child", new_parent_child_path(@parent) %>, method: :patch) do |form| %>
+  </div>
+  <div>
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div>
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div>
+    <%= form.label :age %>
+    <%= form.number_field :age %>
+  </div>
+
+  <div>
+    <%= form.label :grade %>
+    <%= form.text_field :grade %>
+  </div>
+
+  </div>
+  <div>
+    <%= form.label :food_allergies %>
+    <%= form.text_field :food_allergies %>
+  </div>
+
+  <div>
+    <%= form.label :special_medical_needs %>
+    <%= form.text_field :special_medical_needs %>
+  </div>
+
+  <div>
+    <%= form.label :emergency_contact %>
+    <%= form.text_field :emergency_contact %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Child" %>
+  </div>
+<% end %>

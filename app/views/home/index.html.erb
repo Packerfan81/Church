@@ -1,0 +1,106 @@
+<html>
+<head>
+    <title>Welcome to First Church of Awesome</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(<%= image_path('church.jpg') %>);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .login-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        header {
+            color: maroon;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        section h2 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="login-link">
+                <li><%= link_to "Login", new_user_session_path %></li> <!-- Assuming Devise and :user resource -->
+                <li><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
+                <li><%= link_to "Manage Parents", parents_path %></li>
+            </ul>
+        </nav>
+        <h1>Welcome to First Church of Awesome</h1>
+        <p>We are a community of believers dedicated to spreading love and joy.</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Service Times</h2>
+            <ul>
+                <li>Sunday Service: 10:00 AM</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Get Involved</h2>
+            <p>Encourage visitors to join your community and participate in various activities.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>If you have any questions or inquiries, please feel free to reach out to us:</p>
+            <ul>
+                <li>Email: jaye.engelhardt@protonmail.com</li>
+                <li>Phone: 555-123-4567</li>
+                <li>Address: 123 Church St, City, Country</li>
+            </ul>
+        </section>
+    </div>
+
+    <main>
+        <%= yield %>
+    </main>
+
+    <footer>
+        &copy; <%= Time.current.year %> First Church of Awesome
+    </footer>
+</body>
+</html>

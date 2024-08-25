@@ -1,0 +1,18 @@
+<h1>Check In</h1>
+
+<%= form_with(model: @check_in, url: check_ins_path) do |form| %>
+  </div>
+  <div>
+    <%= form.label :child_id %>
+    <%= form.collection_select :child_id, Child.all, :id, :full_name %>
+  </div>
+
+  <div>
+    <%= form.submit "Check In" %>
+  </div>
+
+  <div>
+  <%= form.label :send_email, "Send confirmation email?" %>
+  <%= form.check_box :send_email %>
+</div>
+<% end %>

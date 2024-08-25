@@ -1,0 +1,27 @@
+<h1>Edit Volunteer</h1>
+
+<%= form_with(model: @volunteer, url: volunteer_path(@volunteer), method: :patch) do |form| %>
+  <div>
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, value: @volunteer.first_name %>
+  </div>
+
+  <div>
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, value: @volunteer.last_name %>
+  </div>
+
+  <div>
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number, value: @volunteer.phone_number %>
+  </div>
+
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email, value: @volunteer.email %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Volunteer" %>
+  </div>
+<% end %>

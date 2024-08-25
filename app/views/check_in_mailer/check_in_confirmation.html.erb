@@ -1,0 +1,14 @@
+<h1>Check-in Confirmation</h1>
+
+<p>Dear <%= @parent.first_name %>,</p>
+
+<p>This is a confirmation that your child, <%= @child.full_name %>, has been checked in successfully.</p>
+
+<p>Check-in time: <%= @check_in.check_in_time %></p>
+
+</div>
+<div>
+  <%= raw @qr_code_svg %>
+</div>
+
+<p>Thank you for choosing our church!</p

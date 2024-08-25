@@ -1,0 +1,166 @@
+<style>
+/* Basic Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color:
+ #f2f2f2;
+}
+
+.search-form {
+  margin-bottom: 10px;
+}
+
+.actions a {
+  margin-right: 5px;
+}
+</style>
+
+<h1>Admin Dashboard</h1>
+
+<%= link_to "Admin Dashboard", admin_dashboard_path, data: { turbo: false } %>
+
+  <h2>Users</h2>
+  <%= search_form_for @user_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= f.label :email_cont, "Search by Email:" %>
+    <%= f.search_field :email_cont %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+  <table>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.admin? ? 'Yes' : 'No' %></td>
+          <td>
+            <%= link_to 'Edit', edit_user_registration_path(user) %>
+            <% if policy(user).destroy? && !user.admin? %> <%# Authorize delete and prevent self-deletion for admins %>
+              <%= link_to 'Delete', user_registration_path(user), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+            </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Check-ins</h2>
+
+  <table>
+    <tbody>
+      <% @check_ins.each do |check_in| %>
+        <tr>
+          <td><%= check_in.child.full_name %></td>
+          <td><%= check_in.parent.full_name %></td>
+          <td><%= check_in.volunteer&.full_name || 'N/A' %></td>
+          <td><%= check_in.check_in_time %></td>
+          <td><%= check_in.check_out_time || 'N/A' %></td>
+          <td>
+            <% if policy(check_in).edit? %>
+              <%= link_to 'Edit', edit_check_in_path(check_in) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Volunteers</h2>
+  <%= search_form_for @volunteer_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= f.label :full_name_cont, "Search by Name:" %>
+    <%= f.search_field :full_name_cont %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+  <table>
+    <tbody>
+      <% @volunteers.each do |volunteer| %>
+        <tr>
+          <td><%= volunteer.full_name %></td>
+          <td><%= volunteer.email %></td>
+          <td><%= volunteer.phone_number %></td>
+          <td>
+            <%= link_to 'Show', volunteer %>
+            <% if policy(volunteer).edit? %>
+              <%= link_to 'Edit', edit_volunteer_path(volunteer) %>
+            <% end %>
+            <% if policy(volunteer).destroy? %>
+              <%= link_to 'Delete', volunteer, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Parents</h2>
+  <%= search_form_for @parent_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= f.label :full_name_cont, "Search by Name:" %>
+    <%= f.search_field :full_name_cont %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+  <table>
+    <tbody>
+      <% @parents.each do |parent| %>
+        <tr>
+          <td><%= parent.full_name %></td>
+          <td><%= parent.phone_number %></td>
+          <td><%= parent.email %></td>
+          <td>
+            <%= link_to 'View', parent %>
+            <% if policy(parent).edit? %>
+              <%= link_to 'Edit', edit_parent_path(parent) %>
+            <% end %>
+            <% if policy(parent).destroy? %>
+              <%= link_to 'Delete', parent, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Children</h2>
+  <%= search_form_for @child_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= f.label :full_name_cont, "Search by Name:" %>
+    <%= f.search_field :full_name_cont %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+  <table>
+    <tbody>
+      <% @children.each do |child| %>
+        <tr>
+          <td><%= child.full_name %></td>
+          <td><%= child.parent.full_name %></td>
+          <td><%= child.age %></td>
+          <td><%= child.grade %></td>
+          <td>
+            <%= link_to 'Edit', edit_parent_child_path(child.parent, child) %>
+            <% if policy(child).destroy? %>
+              <%= link_to 'Delete', [child.parent, child], method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <p>You are not authorized to access this page.</p>
+<% end %>
+
+
+
+

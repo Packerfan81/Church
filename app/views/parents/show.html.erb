@@ -1,0 +1,25 @@
+
+
+
+<h1>Parent Details</h1>
+
+<p>Name: <%= @parent.full_name %></p>
+<p>Phone: <%= @parent.phone_number %></p>
+<p>Email: <%= @parent.email %></p>
+
+<h2>Children</h2>
+
+<% if @parent.children.any? %>
+  <ul>
+    <% @parent.children.each do |child| %>
+      <li><%= child.full_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No children added yet.</p>
+<% end %>
+</div>
+
+<%= link_to "Edit", edit_parent_path(@parent) %>
+<%= link_to "Delete", @parent, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to "Return to Home", root_path, class: "return-home-button" %>

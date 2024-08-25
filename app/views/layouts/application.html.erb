@@ -1,0 +1,63 @@
+
+
+  <head>
+    <title>First Church of Awesome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+      <style>
+    body {
+      background-image: url(<%= image_path('church.jpg') %>); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+     .nav-list {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-list li {
+      margin: 0 15px;
+    }
+  </style>
+
+
+
+  </head>
+
+
+  <body>
+    <header>
+    <nav>
+      <ul class="nav-list">
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <li><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
+          <% else %>
+            <li><%= link_to "Check In", new_parent_path %></li>
+          <% end %>
+          <li><%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false } %></li>
+        <% else %>
+          <li><%= link_to "Login",  new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </header>
+
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer>
+
+    </footer>
+  </body>
+</html>
