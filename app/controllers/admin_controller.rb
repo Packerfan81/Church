@@ -2,7 +2,6 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin
 
-
   def dashboard
 
     def dashboard
@@ -11,9 +10,9 @@ class AdminController < ApplicationController
     @children = Child.all
     @volunteers = Volunteer.all
     @check_ins = CheckIn.all
-  rescue Pundit::NotAuthorizedError
-    redirect_to root_path, alert: "You are not authorized to access the admin dashboard."
-  end
+    rescue Pundit::NotAuthorizedError
+      redirect_to root_path, alert: "You are not authorized to access the admin dashboard."
+    end
 
     @user_search = User.ransack(params[:q])
     @users = @user_search.result

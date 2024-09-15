@@ -1,7 +1,6 @@
 # app/controllers/check_ins_controller.rb
 class CheckInsController < ApplicationController
 
-
   def new
 
   end
@@ -15,7 +14,7 @@ class CheckInsController < ApplicationController
       # Send email (if chosen)
       send_check_in_email(@check_in) if @check_in.send_email
 
-      redirect_to check_in_path(@check_in), notice: 'Check-in successful!'
+      redirect_to check_in_path(@check_in), notice: "Check-in successful!"
     else
       render :new
     end
@@ -28,7 +27,7 @@ class CheckInsController < ApplicationController
   def update
     @check_in = CheckIn.find(params[:id])
     if @check_in.update(check_in_params)
-      redirect_to check_in_path(@check_in), notice: 'Check-in updated successfully.'
+      redirect_to check_in_path(@check_in), notice: "Check-in updated successfully."
     else
       render :edit
     end

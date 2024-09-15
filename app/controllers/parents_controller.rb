@@ -1,6 +1,6 @@
 # app/controllers/parents_controller.rb
 class ParentsController < ApplicationController
-  include Pundit
+  include Pundit::Authorization
   before_action :authenticate_user!, except: [:new, :create]
 
   def new

@@ -40,7 +40,7 @@ class ChildrenController < ApplicationController
 
   def child_params
     params.require(:child).permit(:first_name, :last_name, :age, :grade, :food_allergies, :special_medical_needs, :emergency_contact, :classroom_id).tap do |p|
-    p.require([:first_name, :last_name]) # Require at least first and last name
+    p.require([ :first_name, :last_name ]) # Require at least first and last name
     end
   end
 

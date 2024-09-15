@@ -1,6 +1,6 @@
 <h1>Edit Child</h1>
 
-<%= form_with(model: @child,<%= link_to "Edit Child", new_parent_child_path(@parent) %>, method: :patch) do |form| %>
+<%= form_with(model: [@parent, @child], method: :patch) do |form| %>
   </div>
   <div>
     <%= form.label :first_name %>

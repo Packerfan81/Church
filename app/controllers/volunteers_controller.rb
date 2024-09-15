@@ -1,4 +1,5 @@
 class VolunteersController < ApplicationController
+  include Pundit::Authorization
   before_action :authenticate_user!
   before_action :set_volunteer, only: [:show, :edit, :update, :destroy]
 
