@@ -1,5 +1,3 @@
-class User < Admin
-  def admin?
-    self.admin # Access the 'admin' attribute on the User object
-  end
+# app/models/admin.rb
+class Admin < ApplicationRecord
 end
