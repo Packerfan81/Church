@@ -6,7 +6,6 @@ class AdminController < ApplicationController
 
     @parents = Parent.all
     @children = Child.all
-    @volunteers = Volunteer.all
     @check_ins = CheckIn.all
 
     @user_search = User.ransack(params[:q])
@@ -14,9 +13,6 @@ class AdminController < ApplicationController
 
     @check_in_search = CheckIn.ransack(params[:q])
     @check_ins = @check_in_search.result
-
-    @volunteer_search = Volunteer.ransack(params[:q])
-    @volunteers = @volunteer_search.result
 
     @parent_search = Parent.ransack(params[:q])
     @parents = @parent_search.result

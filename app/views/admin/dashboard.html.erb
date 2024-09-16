@@ -76,35 +76,7 @@
       </tbody>
     </table>
 
-    <h2>Volunteers</h2>
-    <%= search_form_for @volunteer_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
-      <%= f.label :full_name_cont, "Search by Name:" %>
-      <%= f.search_field :full_name_cont %>
-      <%= f.submit "Search" %>
-    <% end %>
-
-    <table>
-      <tbody>
-        <% @volunteers.each do |volunteer| %>
-          <tr>
-            <td><%= volunteer.full_name %></td>
-            <td><%= volunteer.email %></td>
-            <td><%= volunteer.phone_number %></td>
-            <td>
-              <%= link_to 'Show', volunteer %>
-              <% if policy(volunteer).edit? %>
-                <%= link_to 'Edit', edit_volunteer_path(volunteer) %>
-              <% end %>
-              <% if policy(volunteer).destroy? %>
-                <%= link_to 'Delete', volunteer, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <h2>Parents</h2>
+   <h2>Parents</h2>
     <%= search_form_for @parent_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
       <%= f.label :full_name_cont, "Search by Name:" %>
       <%= f.search_field :full_name_cont %>

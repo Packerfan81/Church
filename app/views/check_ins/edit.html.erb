@@ -7,11 +7,6 @@
   </div>
 
   <div>
-    <%= form.label :volunteer_id %>
-    <%= form.collection_select :volunteer_id, Volunteer.all, :id, :full_name, selected: @check_in.volunteer_id, include_blank: true %>
-  </div>
-
-  <div>
     <%= form.label :check_in_time %>
     <%= form.datetime_field :check_in_time %>
   </div>

@@ -43,7 +43,7 @@ class CheckInsController < ApplicationController
   end
 
   def check_in_params
-    params.require(:check_in).permit(:child_id, :volunteer_id, :send_email)
+    params.require(:check_in).permit(:child_id, :send_email)
   end
 
   def generate_name_tag(check_in)
