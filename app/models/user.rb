@@ -11,6 +11,6 @@ validates :first_name, :last_name, presence: true # Require first and last name 
   end
 
   def admin?
-    self.admin
+    admin
   end
 end
