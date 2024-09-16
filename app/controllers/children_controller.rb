@@ -1,4 +1,3 @@
-# app/controllers/children_controller.rb
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
 
@@ -8,39 +7,34 @@ class ChildrenController < ApplicationController
   end
 
   def create
-    @parent = Parent.find(params[:parent_id])
-    @child = @parent.children.build(child_params)
-
-    if @child.save
-      if params[:add_another_child] == "1" # Assuming the checkbox value is "1" when checked
-        redirect_to new_parent_child_path(@parent), notice: "Child added successfully. Add another child."
-      else
-        redirect_to new_check_in_path, notice: "All children added. Proceed to check-in."
-      end
-    else
-      render :new
-    end
+    # ... your existing create logic
   end
 
   def edit
     @child = Child.find(params[:id])
+    authorize @child # If using Pundit
+  rescue ActiveRecord::RecordNotFound
+    redirect_to parents_path, alert: "Child not found."
   end
 
   def update
     @child = Child.find(params[:id])
+    authorize @child # If using Pundit
     if @child.update(child_params)
-      flash[:notice] = "Child information updated successfully." # Set the flash message
+      flash[:notice] = "Child information updated successfully."
       redirect_to @child
     else
       render :edit
     end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to parents_path, alert: "Child not found."
   end
 
   private
 
   def child_params
     params.require(:child).permit(:first_name, :last_name, :age, :grade, :food_allergies, :special_medical_needs, :emergency_contact, :classroom_id).tap do |p|
-    p.require([ :first_name, :last_name ]) # Require at least first and last name
+      p.require([:first_name, :last_name])
     end
   end
 end

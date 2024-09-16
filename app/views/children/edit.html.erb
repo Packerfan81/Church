@@ -1,7 +1,19 @@
 <h1>Edit Child</h1>
 
-<%= form_with(model: [@parent, @child], method: :patch) do |form| %>
+<% if @child.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@child.errors.count, "error") %> prohibited this child from being saved:</h2>
+    <ul>
+    <% @child.errors.full_messages.each
+ do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
   </div>
+<% end
+ %>
+
+<%= form_with(model: [@parent, @child], method: :patch) do |form| %>
   <div>
     <%= form.label :first_name %>
     <%= form.text_field :first_name %>
@@ -13,7 +25,8 @@
   </div>
 
   <div>
-    <%= form.label :age %>
+    <%= form.label
+ :age %>
     <%= form.number_field :age %>
   </div>
 
@@ -22,7 +35,6 @@
     <%= form.text_field :grade %>
   </div>
 
-  </div>
   <div>
     <%= form.label :food_allergies %>
     <%= form.text_field :food_allergies %>
@@ -40,5 +52,5 @@
 
   <div>
     <%= form.submit "Update Child" %>
-  </div>
+    <%= link_to "Back", parent_path(@parent) %>  </div>
 <% end %>

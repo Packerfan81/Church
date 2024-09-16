@@ -1,6 +1,9 @@
-# app/controllers/check_ins_controller.rb
 class CheckInsController < ApplicationController
-    def new
+  before_action :authenticate_user!  # Ensure user is logged in
+  before_action :set_check_in, only: [:edit, :update] # Fetch check-in record for edit/update actions
+
+  def new
+
   end
 
   def create
@@ -19,11 +22,11 @@ class CheckInsController < ApplicationController
   end
 
   def edit
-    @check_in = CheckIn.find(params[:id])
+    authorize @check_in # Authorize using Pundit
   end
 
   def update
-    @check_in = CheckIn.find(params[:id])
+    authorize @check_in # Authorize using Pundit
     if @check_in.update(check_in_params)
       redirect_to check_in_path(@check_in), notice: "Check-in updated successfully."
     else
@@ -33,19 +36,23 @@ class CheckInsController < ApplicationController
 
   private
 
+  def set_check_in
+    @check_in = CheckIn.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to check_ins_path, alert: "Check-in not found."
+  end
+
   def check_in_params
     params.require(:check_in).permit(:child_id, :volunteer_id, :send_email)
   end
 
   def generate_name_tag(check_in)
-    pdf = Prawn::Document.new
+   pdf = Prawn::Document.new
     pdf.text check_in.child.full_name, size: 24, align: :center
     pdf.text "Classroom: #{check_in.child.classroom}", size: 18, align: :center
-    # Add other information to the name tag as needed
-    send_data pdf.render, filename: "#{check_in.child.full_name}_name_tag.pdf", type: "application/pdf"
+        send_data pdf.render, filename: "#{check_in.child.full_name}_name_tag.pdf", type: "application/pdf"
   end
 
-  # This method is now correctly placed in the 'private' section
   def send_check_in_email(check_in)
     CheckInMailer.check_in_confirmation(check_in).deliver_later
   end

@@ -3,15 +3,11 @@ class AdminController < ApplicationController
   before_action :authorize_admin
 
   def dashboard
-    def dashboard
-    authorize :admin, :dashboard?
+
     @parents = Parent.all
     @children = Child.all
     @volunteers = Volunteer.all
     @check_ins = CheckIn.all
-    rescue Pundit::NotAuthorizedError
-      redirect_to root_path, alert: "You are not authorized to access the admin dashboard."
-    end
 
     @user_search = User.ransack(params[:q])
     @users = @user_search.result
@@ -27,7 +23,11 @@ class AdminController < ApplicationController
 
     @child_search = Child.ransack(params[:q])
     @children = @child_search.result
+  rescue Pundit::NotAuthorizedError
+    redirect_to root_path, alert: "You are not authorized to access the admin dashboard."
+  # You can add rescue blocks for other potential exceptions here
   end
+
   private
 
   def authorize_admin

@@ -1,7 +1,6 @@
-# app/controllers/parents_controller.rb
 class ParentsController < ApplicationController
   include Pundit::Authorization
-  before_action :authenticate_user!, except: [ :new, :create ]
+  before_action :authenticate_user!, except: [:new, :create]
 
   def new
     @parent = Parent.new
@@ -21,30 +20,24 @@ class ParentsController < ApplicationController
   end
 
   def show
-    @parent = Parent.find_by(id: params[:id])
+    @parent = Parent.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to parents_path, alert: "Parent not found."
+  end
+
+  def edit
+    @parent = Parent.find(params[:id])
     if @parent
+      authorize @parent
     else
       redirect_to parents_path, alert: "Parent not found."
     end
+  rescue Pundit::NotAuthorizedError
+    redirect_to parents_path, alert: "You are not authorized to edit this parent."
   end
-
- def edit
-  @parent = Parent.find_by(id: params[:id])
-  if @parent
-    authorize @parent
-
-  else
-    redirect_to parents_path, alert: "Parent not found."
-  end
-rescue Pundit::NotAuthorizedError
-  redirect_to parents_path, alert: "You are not authorized to edit this parent."
-end
-
-
-
 
   def update
-    @parent = Parent.find_by(id: params[:id])
+    @parent = Parent.find(params[:id])
     if @parent
       authorize @parent
       if @parent.update(parent_params)
@@ -63,9 +56,10 @@ end
     if @parent.destroy
       redirect_to parents_path, notice: "Parent was successfully deleted."
     else
-
-      redirect_to parents_path, alert: "Parent could not be deleted."
+      redirect_to parents_path, alert: "Parent could not be deleted." # Consider a more specific error message
     end
+  rescue Pundit::NotAuthorizedError
+    redirect_to parents_path, alert: "You are not authorized to delete this parent."
   end
 
   private
