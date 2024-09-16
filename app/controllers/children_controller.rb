@@ -43,5 +43,4 @@ class ChildrenController < ApplicationController
     p.require([ :first_name, :last_name ]) # Require at least first and last name
     end
   end
-
 end

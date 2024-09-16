@@ -3,7 +3,6 @@ class AdminController < ApplicationController
   before_action :authorize_admin
 
   def dashboard
-
     def dashboard
     authorize :admin, :dashboard?
     @parents = Parent.all

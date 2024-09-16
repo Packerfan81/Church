@@ -1,8 +1,6 @@
 # app/controllers/check_ins_controller.rb
 class CheckInsController < ApplicationController
-
-  def new
-
+    def new
   end
 
   def create
