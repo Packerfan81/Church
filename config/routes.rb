@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admins
+  get "users/new"
   get "admin/dashboard", to: "admin#dashboard", as: "admin_dashboard"
   root to: 'home#index'
   devise_for :users, controllers: { sessions: 'sessions' } # Use your custom SessionsController

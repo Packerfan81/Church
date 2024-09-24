@@ -56,8 +56,7 @@ class ParentsController < ApplicationController
     if @parent.destroy
       redirect_to parents_path, notice: "Parent was successfully deleted."
     else
-      redirect_to parents_path, alert: "Parent could not be deleted." # Consider a more specific error message
-    end
+      redirect_to parents_path, alert: "Parent could not be deleted."
   rescue Pundit::NotAuthorizedError
     redirect_to parents_path, alert: "You are not authorized to delete this parent."
   end

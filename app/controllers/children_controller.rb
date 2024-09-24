@@ -7,19 +7,19 @@ class ChildrenController < ApplicationController
   end
 
   def create
-    # ... your existing create logic
+
   end
 
   def edit
     @child = Child.find(params[:id])
-    authorize @child # If using Pundit
+    authorize @child
   rescue ActiveRecord::RecordNotFound
     redirect_to parents_path, alert: "Child not found."
   end
 
   def update
     @child = Child.find(params[:id])
-    authorize @child # If using Pundit
+    authorize @child
     if @child.update(child_params)
       flash[:notice] = "Child information updated successfully."
       redirect_to @child
