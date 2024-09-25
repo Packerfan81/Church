@@ -1,27 +1,28 @@
 Rails.application.routes.draw do
+  # Devise routes for admins
   devise_for :admins
-  get "users/new"
-  get "admin/dashboard", to: "admin#dashboard", as: "admin_dashboard"
+
+  # Admin dashboard route
+  get 'admin_dashboard', to: 'admin_dashboard#show'
+
+  # Root route
   root to: 'home#index'
-  devise_for :users, controllers: { sessions: 'sessions' } # Use your custom SessionsController
 
+  # Devise routes for users with custom sessions controller
+  devise_for :users, controllers: { sessions: 'sessions' }
 
+  # Nested resources for parents and children
   resources :parents do
     resources :children
   end
 
+  # Resource for check-ins
   resources :check_ins
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check route for uptime monitors
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/*
+  # Routes for PWA functionality
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
