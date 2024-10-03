@@ -30,23 +30,33 @@
           @parent = Parent.new(parent_params)
           if @parent.save
           redirect_to new_parent_child_path(@parent), notice: "Parent created successfully. Please add your child/children."
-          
+
           ```
-          This line creates a new parent record 
-          
+          This line creates a new parent record
+
+          ```ruby
           Not Found
           rescue ActiveRecord::RecordNotFound
           redirect_to parents_path, alert: "Parent not found."
+          ```
+           This handles an error that might occur if a parent record is not found in the database. If this happens, the application redirects the user to the parents page and shows an alert message.
 
+          ```ruby
           Not Authurized
           rescue Pundit::NotAuthorizedError
           redirect_to parents_path, alert: "You are not authorized to edit this parent."
           rescue ActiveRecord::RecordNotFound
+          ```
+          This handles an error that occurs if a non-admin user tries to edit a parent record. If this happens, the application redirects the user to the parents page and shows an alert message.
 
+          ```ruby
           redirect_to parents_path, alert: "Parent not found."
           rescue Pundit::NotAuthorizedError
           redirect_to parents_path, alert: "You are not authorized to update this parent."
+          ```
+          This handles an error if a non-admin user is trying to update a parent record. If this happens, the application redirects the user to the parents page and shows an alert message.
 
+          ```ruby
           destroy
           @parent = find_and_authorize_parent
           if @parent.destroy
@@ -54,12 +64,16 @@
           else
           redirect_to parents_path, alert: "Parent could not be deleted."
           end
+
           rescue ActiveRecord::RecordNotFound
           redirect_to parents_path, alert: "Parent not found."
           rescue Pundit::NotAuthorizedError
           redirect_to parents_path, alert: "You are not authorized to delete this parent."
           end
+          ```
+          These lines finds and locates the parents and if found it will delete it if the user is an admin user, if the parent is not found or the user is not an admin the                 parent is not deleted.
 
+          ```ruby
           private
 
           def find_and_authorize_parent
@@ -68,13 +82,12 @@
           parent
           end
 
-         def parent_params
-         params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
+          def parent_params
+          params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
 
-        @parent = Parent.new(parent_params): This line creates a new parent record. Imagine it like creating a new form for a parent, and parent_params are the details                 entered into that form (like first name, last name, etc.).
-
-        
-
+          @parent = Parent.new(parent_params): This line creates a new parent record. Imagine it like creating a new form for a parent, and parent_params are the details entered into that form (like first name, last name, etc.).
+          ```
+          This method defines the parameters used in the controller and also helps find the parent record. The params keeps from unauthorized users from entering information.
          
 - *ChildrenController:*
   - Test actions for creating, editing, and updating children.
