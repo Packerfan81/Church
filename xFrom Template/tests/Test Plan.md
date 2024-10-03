@@ -71,7 +71,7 @@
      params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
      '''ruby
 
-         -
+         
 - *ChildrenController:*
   - Test actions for creating, editing, and updating children.
       before_action :authenticate_user!
