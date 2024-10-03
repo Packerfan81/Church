@@ -31,7 +31,7 @@
           @parent = Parent.new(parent_params)
           if @parent.save
           redirect_to new_parent_child_path(@parent), notice: "Parent created successfully. Please add your child/children."
-          ```
+          
 
           Not Found
           rescue ActiveRecord::RecordNotFound
@@ -69,7 +69,7 @@
 
      def parent_params
      params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
-
+     '''ruby
 
          -
 - *ChildrenController:*
