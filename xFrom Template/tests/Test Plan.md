@@ -59,16 +59,16 @@
           redirect_to parents_path, alert: "You are not authorized to delete this parent."
           end
 
-      private
+          private
 
-      def find_and_authorize_parent
-      parent = Parent.find(params[:id])
-      authorize parent
-      parent
-      end
+          def find_and_authorize_parent
+          parent = Parent.find(params[:id])
+          authorize parent
+          parent
+          end
 
-     def parent_params
-     params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
+         def parent_params
+         params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
      '''ruby
 
          
