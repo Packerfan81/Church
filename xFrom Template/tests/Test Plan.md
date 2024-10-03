@@ -10,7 +10,6 @@
   - Test validations for required fields, email format, and phone number format.
 
 
-
 - *Child:*
   - Test validations for required fields, age range, and grade inclusion.
   - Test the `full_name` method.
@@ -32,7 +31,9 @@
           if @parent.save
           redirect_to new_parent_child_path(@parent), notice: "Parent created successfully. Please add your child/children."
           
-
+          ```
+          This line creates a new parent record 
+          
           Not Found
           rescue ActiveRecord::RecordNotFound
           redirect_to parents_path, alert: "Parent not found."
@@ -69,6 +70,8 @@
 
          def parent_params
          params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
+
+        @parent = Parent.new(parent_params): This line creates a new parent record. Imagine it like creating a new form for a parent, and parent_params are the details                 entered into that form (like first name, last name, etc.).
 
         
 
