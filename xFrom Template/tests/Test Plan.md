@@ -150,7 +150,10 @@
       ```ruby
         before_action :authenticate_user!
         before_action :set_check_in, only: [:edit, :update]
+      ```
+      These lines makes authenticated the user and runs the set_check_in action
 
+      ```ruby
         @check_in = CheckIn.new(check_in_params)
         if @check_in.save
 
@@ -162,7 +165,10 @@
         redirect_to check_in_path(@check_in), notice: "Check-in successful!"
         else
         render :new
+      ```
+          These lines the save operation is successful, generates a name tag for  the check-in and then sends an email notification (if the user opted in). Then it redirects the user to the check-in page with a success message.  If not it creates a new template with validations errors.
 
+      ```ruby
         authorize @check_in # Authorize using Pundit
         end
 
@@ -189,9 +195,11 @@
         params.require(:check_in).permit(:child_id, :send_email)
         end
       ```
+          This methods in manages check-ins, set_check_in finds a specific check-in record by its ID, or redirects the user if it doesn't exist. check_in_params filters the data submitted through a form to only allow the child_id and send_email fields.
 
 - Test name tag generation and email sending.
 
+      ```ruby
       generate_name_tag(check_in)
       pdf = Prawn::Document.new
       pdf.text check_in.child.full_name, size: 24, align: :center
@@ -199,12 +207,16 @@
         send_data pdf.render, filename: "#{check_in.child.full_name}_name_tag.pdf", type: "application/pdf"
       end
 
-    def send_check_in_email(check_in)
-    CheckInMailer.check_in_confirmation(check_in).deliver_later
-    end
+      def send_check_in_email(check_in)
+      CheckInMailer.check_in_confirmation(check_in).deliver_later
+      end
+      ```
+        This gives the specifications for the pdf tag and sends an email if the parents have selected that option.
 
 - *AdminController:*
-  - Test authorization for accessing the dashboard and performing actions within it.
+
+- Test authorization for accessing the dashboard and performing actions within it.
+      ```ruby
       before_action :authenticate_user!
       before_action :authorize_admin
 
@@ -226,10 +238,14 @@
       rescue Pundit::NotAuthorizedError
       redirect_to root_path, alert: "You are not authorized to access the admin dashboard."
 
+
       private
 
       def authorize_admin
       authorize :admin, :dashboard?
+      ```
+        Ensurse the loggeed in user is an admin so that is authorized to access the admin dashboard.  Allows the Admin to access the records for parents, childrens, users, and currently checked in children. If not authorized the redirects to home page with error message.
+        
 
 - *SessionsController (if custom):*
   - Test the login and logout functionality.
