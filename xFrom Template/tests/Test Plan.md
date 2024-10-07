@@ -1,8 +1,8 @@
-        Phase                                         Description                                                                                   Estimated Timeline (Weeks)
+| Phase |Description                                                                     |Estimated Timeline (Weeks)
 
-  1. Unit Testing         Test individual models, controllers, and helpers in isolation.                                                                         1-2
-  2. Integration Testing Test the interactions between different components of the system (e.g., parent-child relationship, check-in process).                 2-3
-  3. System Testing         Test the complete system from a user's perspective, including the check-in/check-out flow, admin dashboard, and email functionality. 2-3
+ | 1. Unit Testing | Test individual models, controllers, and helpers in isolation. | 1-2 |
+ | 2. Integration Testing | Test the interactions between different components of the system (e.g., parent-child relationship, check-in, process). | 2-3 |
+ | 3. System Testing | Test the complete system from a user's perspective, including the check-in/check-out flow, admin dashboard, and email functionality. |2-3 |
 
 # Test Cases
 
@@ -137,47 +137,55 @@
         params.require(:child).permit(:first_name, :last_name, :age, :grade, :food_allergies, :special_medical_needs, :emergency_contact, :classroom_id).tap do |p| p.require([:first_name, :last_name])
         ```
 
+        This method defines the parameters to successfully create a child record
+
 - *CheckInsController:*
   - Test actions for creating, editing, and updating check-ins.
-    before_action :authenticate_user!
-    before_action :set_check_in, only: [:edit, :update]
-     @check_in = CheckIn.new(check_in_params)
-    if @check_in.save
 
-      generate_name_tag(@check_in)
+      ```ruby
+        before_action :authenticate_user!
+        before_action :set_check_in, only: [:edit, :update]
+        @check_in = CheckIn.new(check_in_params)
+        if @check_in.save
 
-    # Send email (if chosen)
+        generate_name_tag(@check_in)
 
-      send_check_in_email(@check_in) if @check_in.send_email
+        Send email (if chosen)
 
-      redirect_to check_in_path(@check_in), notice: "Check-in successful!"
-    else
-      render :new
+        send_check_in_email(@check_in) if @check_in.send_email
 
-      authorize @check_in # Authorize using Pundit
-  end
+        redirect_to check_in_path(@check_in), notice: "Check-in successful!"
+        else
+        render :new
 
-  def update
-    authorize @check_in # Authorize using Pundit
-    if @check_in.update(check_in_params)
-      redirect_to check_in_path(@check_in), notice: "Check-in updated successfully."
-    else
-      render :edit
-    end
+        authorize @check_in # Authorize using Pundit
+        end
 
-    private
+        def update
+        authorize @check_in # Authorize using Pundit
+        if @check_in.update(check_in_params)
+        redirect_to check_in_path(@check_in), notice: "Check-in updated successfully."
+        else
+        render :edit
+        end
+      ```
 
-  def set_check_in
-    @check_in = CheckIn.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to check_ins_path, alert: "Check-in not found."
-  end
+      ```ruby
+        private
 
- def check_in_params
-    params.require(:check_in).permit(:child_id, :send_email)
-  end
+        def set_check_in
+        @check_in = CheckIn.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+        redirect_to check_ins_path, alert: "Check-in not found."
+        end
+
+        def check_in_params
+        params.require(:check_in).permit(:child_id, :send_email)
+        end
+      ```
 
 - Test name tag generation and email sending.
+
       generate_name_tag(check_in)
       pdf = Prawn::Document.new
       pdf.text check_in.child.full_name, size: 24, align: :center
