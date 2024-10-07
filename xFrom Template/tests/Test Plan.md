@@ -216,6 +216,7 @@
 - *AdminController:*
 
 - Test authorization for accessing the dashboard and performing actions within it.
+  
       ```ruby
       before_action :authenticate_user!
       before_action :authorize_admin
