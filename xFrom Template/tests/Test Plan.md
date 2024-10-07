@@ -1,9 +1,10 @@
+# &nbsp;
+
 | Phase | Description | Estimated Timeline (Weeks) |
 |---|---|---|
 | 1. Unit Testing | Test individual models, controllers, and helpers in isolation. | 1-2 |
 | 2. Integration Testing | Test the interactions between different components of the system (e.g., parent-child relationship, check-in process). | 2-3 |
 | 3. System Testing | Test the complete system from a user's perspective, including the check-in/check-out flow, admin dashboard, and email functionality. | 2-3 |
-
 # Test Cases
 
 ## Unit Testing
