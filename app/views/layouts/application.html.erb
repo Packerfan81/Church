@@ -20,7 +20,7 @@
           <% if policy(:admin_dashboard).show? %>
             <li><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
           <% end %>
-          <li><%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false } %></li>
+          <li><%= link_to "Logout", destroy_user_session_path, method: :delete, data: { "turbo-method": :delete } %></li>
         <% else %>
           <li><%= link_to "Login", new_user_session_path %></li>
         <% end %>

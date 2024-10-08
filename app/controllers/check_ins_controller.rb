@@ -1,7 +1,6 @@
 class CheckInsController < ApplicationController
-  before_action :authenticate_user!  # Ensure user is logged in
-  before_action :set_check_in, only: [:edit, :update] # Fetch check-in record for edit/update actions
-
+  before_action :authenticate_user!
+  before_action :set_check_in, only: [:edit, :update]
   def new
 
   end
@@ -9,7 +8,7 @@ class CheckInsController < ApplicationController
   def create
     @check_in = CheckIn.new(check_in_params)
     if @check_in.save
-      # Generate name tag
+
       generate_name_tag(@check_in)
 
       # Send email (if chosen)
