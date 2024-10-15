@@ -243,18 +243,20 @@
       def authorize_admin
       authorize :admin, :dashboard?
       ```
-        Ensures the logged in user is an admin so that is authorized to access the admin dashboard.  Allows the Admin to access the records for parents, childrens, users, and currently checked in children. If not authorized the redirects to home page with error message.
+Ensures the logged in user is an admin so that is authorized to access the admin dashboard.  Allows the Admin to access the records for parents, childrens, users, and currently checked in children. If not authorized the redirects to home page with error message.
         
 
 - *SessionsController :
   - Test the login and logout functionality.
+    
   ```ruby
         helper Devise::Controllers::Helpers
         def new
           super # This calls the default 'new' action from Devise::SessionsController
         end
   ```
-        This part of the code ensures that your login page uses the standard Devise login form and behavior, but it also allows you to customize it further if needed. You can add code before or after the super call to modify the login process.
+  
+This part of the code ensures that your login page uses the standard Devise login form and behavior, but it also allows you to customize it further if needed. You can add code before or after the super call to modify the login process.
 
   ```ruby
     def create
@@ -266,8 +268,9 @@
     end
   
     self.resource = warden.authenticate!(auth_options): This line uses a library called Warden, which is  used with Devise, to authenticate the user based on the provided credentials (like username and password).
-    ```    
-    This part of the code handles the entire proceess of verifing user credentials, establishing the session, and directing to the user to the correct page if they login successfully.
+  ```
+      
+This part of the code handles the entire proceess of verifing user credentials, establishing the session, and directing to the user to the correct page if they login successfully.
   
 - *Mailers:*
 
