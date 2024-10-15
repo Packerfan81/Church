@@ -264,10 +264,11 @@
     yield resource if block_given?
     respond_with resource, location: after_sign_in_path_for(resource) # Redirect after login
     end
-  ```
+  
     self.resource = warden.authenticate!(auth_options): This line uses a library called Warden, which is  used with Devise, to authenticate the user based on the provided credentials (like username and password).
+    ```    
     This part of the code handles the entire proceess of verifing user credentials, establishing the session, and directing to the user to the correct page if they login successfully.
-
+  
 - *Mailers:*
 
 - *Application_Mailer:*
