@@ -1,3 +1,5 @@
+
+<html>
 <head>
   <title>First Church of Awesome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +20,8 @@
         <li><%= link_to "Manage Parents", parents_path %></li>
         <% if user_signed_in? %>
           <% if policy(:admin_dashboard).show? %>
-            <li><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
-          <% end %>
+        <li><%= link_to "Admin Dashboard", admin_path %></li>
+        <% end %>
           <li><%= link_to "Logout", destroy_user_session_path, method: :delete, data: { "turbo-method": :delete } %></li>
         <% else %>
           <li><%= link_to "Login", new_user_session_path %></li>

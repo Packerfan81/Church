@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   devise_for :admins
 
   # Admin dashboard route
-  get 'admin_dashboard', to: 'admin_dashboard#show'
+#  get 'admin_dashboard', to: 'admin_dashboard#show'
+  get 'admin', to: 'admin#dashboard', as: :admin
 
   # Root route
   root to: 'home#index'

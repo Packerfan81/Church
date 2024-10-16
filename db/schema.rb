@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_185100) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_16_163919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_185100) do
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["user_id"], name: "index_admins_on_user_id"
+  end
+
+  create_table "check_ins", force: :cascade do |t|
+    t.bigint "child_id", null: false
+    t.datetime "check_in_time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_check_ins_on_child_id"
   end
 
   create_table "children", force: :cascade do |t|
@@ -78,5 +86,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_185100) do
   end
 
   add_foreign_key "admins", "users"
+  add_foreign_key "check_ins", "children"
   add_foreign_key "children", "parents"
 end

@@ -7,5 +7,21 @@ class Parent < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
-end
 
+  def self.ransackable_attributes(auth_object = nil)
+    [
+      "created_at",
+      "email",
+      "first_name",
+      "id",
+      "last_name",
+      "phone_number",
+      "updated_at",
+      "full_name_cont"
+    ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["children"]
+  end
+end

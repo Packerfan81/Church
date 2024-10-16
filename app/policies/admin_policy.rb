@@ -6,4 +6,8 @@ class AdminPolicy < ApplicationPolicy
   def create?
     user.admin?
   end
+
+  def dashboard?
+    user.admin?
+  end
 end

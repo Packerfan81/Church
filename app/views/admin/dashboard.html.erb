@@ -29,10 +29,10 @@
 
   <h1>Admin Dashboard</h1>
 
-  <%= link_to "Admin Dashboard", admin_dashboard_path, data: { turbo: false } %>
+  <%= link_to "Admin Dashboard", admin_path, data: { turbo: false } %>
 
     <h2>Users</h2>
-    <%= search_form_for @user_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= search_form_for @user_search, url: admin_path, method: :get, class: 'search-form' do |f| %>
       <%= f.label :email_cont, "Search by Email:" %>
       <%= f.search_field :email_cont %>
       <%= f.submit "Search" %>
@@ -76,7 +76,7 @@
     </table>
 
    <h2>Parents</h2>
-    <%= search_form_for @parent_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= search_form_for @parent_search, url: admin_path, method: :get, class: 'search-form' do |f| %>
       <%= f.label :full_name_cont, "Search by Name:" %>
       <%= f.search_field :full_name_cont %>
       <%= f.submit "Search" %>
@@ -104,7 +104,7 @@
     </table>
 
     <h2>Children</h2>
-    <%= search_form_for @child_search, url: admin_dashboard_path, method: :get, class: 'search-form' do |f| %>
+    <%= search_form_for @child_search,  url: admin_path, method: :get, class: 'search-form' do |f| %>
       <%= f.label :full_name_cont, "Search by Name:" %>
       <%= f.search_field :full_name_cont %>
       <%= f.submit "Search" %>

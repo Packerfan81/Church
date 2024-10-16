@@ -1,18 +1,27 @@
-# app/models/user.rb
 class User < ApplicationRecord
-
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_one :admin
 
-  validates :first_name, :last_name, presence: true # Require first and last name during registration
+  validates :first_name, :last_name, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
   def admin?
-    !!admin # Converts admin to a boolean (true/false)
+    !!admin
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    [
+      "created_at",
+      "email",
+      "first_name",
+      "id",
+      "last_name",
+      "updated_at"
+    ]
   end
 end
