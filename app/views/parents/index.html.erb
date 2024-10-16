@@ -18,7 +18,7 @@
         <td><%= parent.email %></td>
         <td>
           <%= link_to 'View', parent %>
-          <%= link_to 'Edit', edit_parent_path(parent), data: { turbo: false } %>
+          <%= link_to 'Add a Child', edit_parent_path(parent), data: { turbo: false } %>
           <%= link_to 'Delete', parent, method: :delete, data: { confirm: 'Are you sure?' } %>
           </div>
         </td>

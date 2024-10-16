@@ -16,8 +16,8 @@
   <header>
     <nav>
       <ul class="nav-list">
-        <li><%= link_to "Check In", new_parent_path %></li>
         <li><%= link_to "Manage Parents", parents_path %></li>
+        <li><%= link_to "Check In",  new_check_in_path %></li>
         <% if user_signed_in? %>
           <% if policy(:admin_dashboard).show? %>
         <li><%= link_to "Admin Dashboard", admin_path %></li>

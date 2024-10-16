@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "admin_dashboard/show"
+
   # Devise routes for admins
   devise_for :admins
 
