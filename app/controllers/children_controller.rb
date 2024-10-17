@@ -7,7 +7,13 @@ class ChildrenController < ApplicationController
   end
 
   def create
-
+    @parent = Parent.find(params[:parent_id])
+    @child = @parent.children.build(child_params)
+    if @child.save
+      redirect_to @parent, notice: "Child added successfully."
+    else
+      render :new
+    end
   end
 
   def edit
@@ -22,7 +28,7 @@ class ChildrenController < ApplicationController
     authorize @child
     if @child.update(child_params)
       flash[:notice] = "Child information updated successfully."
-      redirect_to @child
+      redirect_to parent_child_path(@child.parent, @child)  # Redirect to the child's page
     else
       render :edit
     end

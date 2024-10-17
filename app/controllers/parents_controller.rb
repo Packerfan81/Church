@@ -59,6 +59,30 @@ class ParentsController < ApplicationController
     redirect_to parents_path, alert: "You are not authorized to delete this parent."
   end
 
+  def add_child
+    @parent = find_and_authorize_parent
+    @child = @parent.children.build
+  rescue ActiveRecord::RecordNotFound
+    redirect_to parents_path, alert: "Parent not found."
+  rescue Pundit::NotAuthorizedError
+    redirect_to parents_path, alert: "You are not authorized to add a child to this parent."
+  end
+
+  def create_child
+    @parent = find_and_authorize_parent
+    @child = @parent.children.new(child_params)
+
+    if @child.save
+      redirect_to parent_child_path(@parent, @child), notice: "Child added successfully."
+    else
+      render :add_child
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to parents_path, alert: "Parent not found."
+  rescue Pundit::NotAuthorizedError
+    redirect_to parents_path, alert: "You are not authorized to add a child to this parent."
+  end
+
   private
 
   def find_and_authorize_parent
@@ -67,9 +91,13 @@ class ParentsController < ApplicationController
     parent
   end
 
-   def parent_params
+  def parent_params
     params.require(:parent).permit(:first_name, :last_name, :phone_number, :email,
-        children_attributes: [:first_name, :last_name, :age, :grade,
-        :food_allergies, :special_medical_needs, :emergency_contact])
-   end
+      children_attributes: [:first_name, :last_name, :age, :grade,:food_allergies, :special_medical_needs, :emergency_contact])
+  end
+
+  def child_params
+    params.require(:child).permit(:first_name, :last_name, :age, :grade,
+      :food_allergies, :special_medical_needs, :emergency_contact)
+  end
 end

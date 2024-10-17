@@ -22,38 +22,6 @@
     <%= form.email_field :email %>
   </div>
 
-   <h2>Add a Child</h2>
-  <%= form.fields_for :children, @parent.children.build do |child_form| %>
-    <div>
-      <%= child_form.label :first_name %>
-      <%= child_form.text_field :first_name %>
-    </div>
-    <div>
-      <%= child_form.label :last_name %>
-      <%= child_form.text_field :last_name %>
-    </div>
-    <div>
-      <%= child_form.label :age %>
-      <%= child_form.number_field :age %>
-    </div>
-    <div>
-      <%= child_form.label :grade %>
-      <%= child_form.text_field :grade %>
-    </div>
-    <div>
-      <%= child_form.label :food_allergies %>
-      <%= child_form.text_field :food_allergies %>
-    </div>
-    <div>
-      <%= child_form.label :special_medical_needs %>
-      <%= child_form.text_field :special_medical_needs %>
-    </div>
-    <div>
-      <%= child_form.label :emergency_contact %>
-      <%= child_form.text_field :emergency_contact %>
-    </div>
-  <% end %>
-
   <div>
     <%= form.submit "Update Parent" %>
   </div>

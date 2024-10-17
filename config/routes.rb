@@ -14,9 +14,13 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'sessions' }
 
   # Nested resources for parents and children
-  resources :parents do
-    resources :children
+resources :parents do
+  member do
+    get :add_child
+    post :create_child
   end
+  resources :children
+end
 
   # Resource for check-ins
   resources :check_ins

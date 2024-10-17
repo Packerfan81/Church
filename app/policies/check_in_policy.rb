@@ -6,12 +6,8 @@ class CheckInPolicy < ApplicationPolicy
     user.present? # Any logged-in user can create a check-in
   end
 
-  def edit?
-    user.admin? # Only admins can edit check-ins
-  end
-
   def update?
-    edit? # Same rules apply for updating as for editing
+    true
   end
 
   def destroy?

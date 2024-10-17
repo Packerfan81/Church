@@ -33,6 +33,10 @@ class Child < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def full_name_cont
+    [first_name, last_name].join(' ')
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     [
       "age",
