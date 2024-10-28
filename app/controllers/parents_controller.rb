@@ -1,5 +1,4 @@
 class ParentsController < ApplicationController
-  include Pundit::Authorization
   before_action :authenticate_user!
 
   def index
@@ -26,50 +25,48 @@ class ParentsController < ApplicationController
   end
 
   def edit
-    @parent = find_and_authorize_parent
-  rescue ActiveRecord::RecordNotFound
-    redirect_to parents_path, alert: "Parent not found."
-  rescue Pundit::NotAuthorizedError
-    redirect_to parents_path, alert: "You are not authorized to edit this parent."
+    @parent = Parent.find(params[:id])
   end
 
   def update
-    @parent = find_and_authorize_parent
+    @parent = Parent.find(params[:id])
     if @parent.update(parent_params)
       redirect_to @parent, notice: "Parent information updated successfully."
     else
       render :edit
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to parents_path, alert: "Parent not found."
-  rescue Pundit::NotAuthorizedError
-    redirect_to parents_path, alert: "You are not authorized to update this parent."
   end
 
-  def destroy
-    @parent = find_and_authorize_parent
+def destroy
+  @parent = Parent.find(params[:id])
+  authorize @parent
+
+  respond_to do |format|
     if @parent.destroy
-      redirect_to parents_path, notice: "Parent was successfully deleted."
+      format.html { redirect_back(fallback_location: root_path, notice: "Parent was successfully deleted.") }
+      format.turbo_stream { flash.now[:notice] = "Parent was successfully deleted." }
     else
-      redirect_to parents_path, alert: "Parent could not be deleted."
+      format.html { redirect_back(fallback_location: root_path, alert: "Parent could not be deleted.") }
+      format.turbo_stream { flash.now[:alert] = "Parent could not be deleted." }
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to parents_path, alert: "Parent not found."
-  rescue Pundit::NotAuthorizedError
-    redirect_to parents_path, alert: "You are not authorized to delete this parent."
   end
+rescue ActiveRecord::RecordNotFound
+  redirect_to parents_path, alert: "Parent not found."
+rescue Pundit::NotAuthorizedError
+  redirect_to parents_path, alert: "You are not authorized to delete this parent."
+end
 
   def add_child
-    @parent = find_and_authorize_parent
-    @child = @parent.children.build
-  rescue ActiveRecord::RecordNotFound
-    redirect_to parents_path, alert: "Parent not found."
-  rescue Pundit::NotAuthorizedError
-    redirect_to parents_path, alert: "You are not authorized to add a child to this parent."
+    @parent = current_user.parent
+    if @parent.nil?
+      redirect_to new_parent_path, notice: "Please create a parent profile first."
+    else
+      @child = @parent.children.build
+    end
   end
 
   def create_child
-    @parent = find_and_authorize_parent
+    @parent = current_user.parent
     @child = @parent.children.new(child_params)
 
     if @child.save
@@ -77,27 +74,15 @@ class ParentsController < ApplicationController
     else
       render :add_child
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to parents_path, alert: "Parent not found."
-  rescue Pundit::NotAuthorizedError
-    redirect_to parents_path, alert: "You are not authorized to add a child to this parent."
   end
 
   private
 
-  def find_and_authorize_parent
-    parent = Parent.find(params[:id])
-    authorize parent
-    parent
+  def child_params
+    params.require(:child).permit(:first_name, :last_name, :age, :grade, :food_allergies, :special_medical_needs, :emergency_contact)
   end
 
   def parent_params
-    params.require(:parent).permit(:first_name, :last_name, :phone_number, :email,
-      children_attributes: [:first_name, :last_name, :age, :grade,:food_allergies, :special_medical_needs, :emergency_contact])
-  end
-
-  def child_params
-    params.require(:child).permit(:first_name, :last_name, :age, :grade,
-      :food_allergies, :special_medical_needs, :emergency_contact)
+    params.require(:parent).permit(:first_name, :last_name, :phone_number, :email)
   end
 end

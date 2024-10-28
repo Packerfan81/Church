@@ -1,4 +1,6 @@
-class SessionsController < Devise::SessionsController
+class Parents::SessionsController < Devise::SessionsController
+
+
   helper Devise::Controllers::Helpers
 
   def new
@@ -12,11 +14,7 @@ class SessionsController < Devise::SessionsController
 
     yield resource if block_given?
 
+    respond_with resource, location: after_sign_in_path_for(resource)
 
-    if resource.admin?
-      respond_with resource, location: after_sign_in_path_for(resource)
-    else
-      respond_with resource, location: root_path
-    end
   end
 end

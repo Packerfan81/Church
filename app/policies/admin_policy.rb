@@ -10,4 +10,8 @@ class AdminPolicy < ApplicationPolicy
   def dashboard?
     user.admin?
   end
+
+  def show?
+    user.admin?
+  end
 end

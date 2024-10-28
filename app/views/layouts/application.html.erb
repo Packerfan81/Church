@@ -1,40 +1,127 @@
 
 <html>
 <head>
-  <title>First Church of Awesome</title>
+  <title>Welcome to First Church of Awesome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
-  <%= stylesheet_link_tag "header", "data-turbo-track": "reload" %>
-</head>
+  <style>
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(<%= image_path('church.jpg') %>);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Ensure the content fits without scrolling */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
+  header h1, header p { /* Target h1 and p within the header */
+  color: maroon;
+  text-align: center;
+}
+
+  .links-table {
+    width: 40%;
+    margin: 0 auto 20px auto;
+    border-collapse: collapse;
+  }
+
+  .links-table td {
+    width: 50%; /* Increased cell width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    text-align: center;
+  }
+
+    .links-table h2 {
+      text-align: center;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .links-table ul {
+      padding: 10px 0;
+      .links-table ul
+      padding: 10px 0;
+      list-style: none; /* Remove bullet points */
+}
+    }
+
+    .links-table li {
+      margin-bottom: 15px;
+    }
+
+    footer {
+      margin-top: auto; /* Push footer to the bottom */
+    }
+  </style>
+</head>
 
 <body>
   <header>
     <nav>
-      <ul class="nav-list">
-        <li><%= link_to "Manage Parents", parents_path %></li>
-        <li><%= link_to "Check In",  new_check_in_path %></li>
-        <% if user_signed_in? %>
-          <% if policy(:admin_dashboard).show? %>
-        <li><%= link_to "Admin Dashboard", admin_path %></li>
-        <% end %>
-          <li><%= link_to "Logout", destroy_user_session_path, method: :delete, data: { "turbo-method": :delete } %></li>
-        <% else %>
-          <li><%= link_to "Login", new_user_session_path %></li>
-        <% end %>
-      </ul>
+      <ul class="nav-list"></ul>
     </nav>
+    <h1>Welcome to First Church of Awesome</h1>
+    <p>We are a community of believers dedicated to spreading love and joy.</p>
+
+    <table class="links-table">
+      <tr>
+        <td>
+          <h2>Parents</h2>
+          <ul>
+            <li><%= link_to "Create a Parent Account", new_parent_registration_path, data: { turbo: false } %></li>
+            <li><%= link_to "Parent Login", new_parent_session_path %></li>
+          </ul>
+        </td>
+        <td>
+          <h2>Users</h2>
+          <ul>
+            <%= link_to "Sign Up", new_user_registration_path, data: { turbo: false } %>
+            <li><%= link_to "User Login", new_user_session_path %></li>
+          </ul>
+        </td>
+      </tr>
+    </table>
   </header>
 
-  <main>
-    <%= yield %>
-  </main>
+  <div class="container">
+    <section>
+      <h2>Service Times</h2>
+      <ul>
+        <li>Sunday Service: 10:00 AM</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Get Involved</h2>
+      <p>Encourage visitors to join your community and participate in various activities.</p>
+    </section>
+
+    <section>
+      <h2>Contact Us</h2>
+      <p>If you have any questions or inquiries, please feel free to reach out to us:</p>
+      <ul>
+        <li>Email: jaye.engelhardt@protonmail.com</li>
+        <li>Phone: 555-123-4567</li>
+        <li>Address: 123 Church St, City, Country</li>
+      </ul>
+    </section>
+  </div>
 
   <footer>
+    &copy; <%= Time.current.year %> First Church of Awesome
   </footer>
+  <%= yield %>
 </body>
 </html>

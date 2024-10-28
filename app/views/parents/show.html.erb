@@ -7,6 +7,11 @@
 <p>Phone: <%= @parent.phone_number %></p>
 <p>Email: <%= @parent.email %></p>
 
+<% if policy(:admin_dashboard).show? %>
+  <p><%= link_to 'Edit', edit_parent_path(@parent) %></p>
+<% end %>
+
+
 <h2>Children</h2>
 
 <% if @parent.children.any? %>

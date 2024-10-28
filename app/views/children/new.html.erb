@@ -1,6 +1,6 @@
 <h1><%= link_to "Add Child", new_parent_child_path(@parent) %></h1>
 
-<%= form_with(model: [@parent, @child], url: parent_children_path(@parent)) do |form| %>
+<%= form_with(model: [@parent, @child], url: create_child_parent_path(@parent) do |form| %>
   <div>
     <%= form.label :first_name %>
     <%= form.text_field :first_name %>

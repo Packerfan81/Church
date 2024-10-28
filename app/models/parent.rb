@@ -1,4 +1,8 @@
 class Parent < ApplicationRecord
+ devise :database_authenticatable, :registerable,
+  :recoverable, :rememberable, :validatable,
+  :trackable
+
   has_many :children
   validates :first_name, :last_name, :phone_number, :email, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -24,4 +28,8 @@ class Parent < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["children"]
   end
+end
+
+def admin?
+    false  # Parents are not admins by default
 end

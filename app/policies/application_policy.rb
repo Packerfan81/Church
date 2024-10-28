@@ -1,4 +1,3 @@
-# app/policies/application_policy.rb
 class ApplicationPolicy
   attr_reader :user, :record
 
@@ -11,7 +10,8 @@ class ApplicationPolicy
     false
   end
 
-  def show?
+  def
+ show?
     false
   end
 
@@ -33,6 +33,12 @@ class ApplicationPolicy
 
   def destroy?
     false
+  end
+
+
+  # Helper method to check if the user is an admin
+  def admin?
+    user&.admin?
   end
 
   class Scope

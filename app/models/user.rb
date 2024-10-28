@@ -1,8 +1,10 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :trackable, :confirmable
 
   has_one :admin
+  has_one :parent
 
   validates :first_name, :last_name, presence: true
 
@@ -11,7 +13,7 @@ class User < ApplicationRecord
   end
 
   def admin?
-    !!admin
+    admin.present?
   end
 
   def self.ransackable_attributes(auth_object = nil)
