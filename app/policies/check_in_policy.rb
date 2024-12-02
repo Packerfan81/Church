@@ -1,19 +1,17 @@
 class CheckInPolicy < ApplicationPolicy
-
-
   def create?
     user.present?
   end
 
+  def edit?
+    admin?
+  end
+
   def update?
-    true
+    admin?
   end
 
   def destroy?
-    user.admin?
-  end
-
-  def edit?
-    user.admin?
+    admin?
   end
 end

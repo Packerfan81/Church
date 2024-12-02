@@ -10,8 +10,7 @@ class ApplicationPolicy
     false
   end
 
-  def
- show?
+  def show?
     false
   end
 
@@ -35,13 +34,17 @@ class ApplicationPolicy
     false
   end
 
-
-  # Helper method to check if the user is an admin
   def admin?
     user&.admin?
   end
 
+  def parent?
+    user&.parent?
+  end
+
   class Scope
+    attr_reader :user, :scope
+
     def initialize(user, scope)
       @user = user
       @scope = scope
@@ -50,9 +53,5 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
-
-    private
-
-    attr_reader :user, :scope
   end
 end

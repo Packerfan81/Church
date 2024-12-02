@@ -1,0 +1,4 @@
+<h1>Child Check-Out Notification</h1>
+<p>Dear <%= @parent.full_name %>,</p>
+<p>Your child, <%= @child.full_name %>, has been checked out at <%= @check_out_time.strftime('%Y-%m-%d %H:%M:%S') %>.</p>
+<p>Thank you for trusting us!</p>

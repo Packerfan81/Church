@@ -1,0 +1,36 @@
+<h2>Edit User</h2>
+
+<form action="<%= admin_user_path(@user) %>" method="post" data-turbo="false" class="pure-form pure-form-aligned">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <fieldset>
+    <div class="field">
+      <label for="user_first_name">First Name</label><br />
+      <input type="text" name="user[first_name]" id="user_first_name" value="<%= @user.first_name %>">
+    </div>
+
+    <div class="field">
+      <label for="user_last_name">Last Name</label><br />
+      <input type="text" name="user[last_name]" id="user_last_name" value="<%= @user.last_name %>">
+    </div>
+
+    <div class="field">
+      <label for="user_email">Email</label><br />
+      <input type="email" name="user[email]" id="user_email" value="<%= @user.email %>">
+    </div>
+
+    <div class="field">
+    <label for="user_admin">Admin</label><br />
+    <input type="hidden" name="user[admin]" value="0">
+    <input type="checkbox" name="user[admin]" id="user_admin" value="1" <%= @user.admin ? "checked" : "" %>>
+    </div>
+
+    <div class="actions">
+      <input type="submit" value="Update User" class="pure-button pure-button-primary">
+    </div>
+  </fieldset>
+</form>
+
+<div class="actions" style="text-align: right; margin-top: 20px;">
+  <%= link_to 'Back', root_path, class: 'pure-button pure-button-primary' %>
+</div>

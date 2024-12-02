@@ -1,0 +1,9 @@
+<h1>Child Check-In Notification</h1>
+<p>Dear <%= @parent.full_name %>,</p>
+<p>Your child, <%= @child.full_name %>, has been checked in at <%= @check_in_time.strftime('%Y-%m-%d %H:%M:%S') %>.</p>
+<h2>Check-Out QR Code</h2>
+<p>Please present this QR code at the check-out desk to check out your child:</p>
+<div style="text-align: center;">
+  <%= raw @qr_code_svg %>
+</div>
+<p>Thank you for trusting us!</p>

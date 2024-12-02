@@ -1,9 +1,17 @@
 class AdminDashboardPolicy < ApplicationPolicy
   def show?
-    user&.admin?
+    admin?
   end
 
   def update?
-    user.admin?
+    admin?
   end
+
+
+  def destroy?
+    user.admin? && !record.admin?
+  end
+
+
+
 end

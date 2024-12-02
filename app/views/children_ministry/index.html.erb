@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Church Website</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= javascript_importmap_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url('<%= asset_path("church.jpg") %>');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: rgba(248, 249, 250, 0.8);
+      padding: 10px 0;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: black;
+      padding: 20px;
+    }
+
+    main h1 {
+      font-size: 2.5rem;
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    main p {
+      font-size: 1.2rem;
+      color: black;
+      margin: 20px 0;
+    }
+  .home-menu {
+      padding: 0.5em;
+      text-align: center;
+      box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+  }
+  .home-menu {
+      background: #2d3e50;
+  }
+  .pure-menu.pure-menu-fixed {
+      /* Fixed menus normally have a border at the bottom. */
+      border-bottom: none;
+      /* I need a higher z-index here because of the scroll-over effect. */
+      z-index: 4;
+  }
+
+  .home-menu .pure-menu-heading {
+      color: white;
+      font-weight: 400;
+      font-size: 120%;
+  }
+
+  .home-menu .pure-menu-selected a {
+      color: white;
+  }
+
+  .home-menu a {
+      color: #6FBEF3;
+  }
+  .home-menu li a:hover,
+  .home-menu li a:focus {
+      background: none;
+      border: none;
+      color: #AECFE5;
+  }
+.user-info {
+  position: absolute; /* Position the user info independently */
+  top: 10px; /* Align it 10px from the top of the screen */
+  right: 20px; /* Align it 20px from the right edge of the screen */
+  font-size: 0.7em;
+  color: #fff; /* Match the header's text color */
+  text-align: right;
+}
+
+.user-info p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5; /* Add spacing between lines for readability */
+}
+
+.user-email {
+  font-weight: bold; /* Highlight the email address */
+}
+
+    .action-button {
+      margin-top: 20px;
+      color: white;
+      background-color: #007bff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .action-button:hover {
+      background-color: #0056b3;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .return-home-button {
+      display: inline-block;
+      margin: 2in auto 0;
+      color: white;
+      background-color: #007bff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .return-home-button:hover {
+      background-color: #0056b3;
+    }
+
+    .button-success,
+    .button-error,
+    .button-warning,
+    .button-secondary {
+      color: white;
+      border-radius: 4px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-success {
+      background: rgb(28, 184, 65);
+    }
+
+    .button-error {
+      background: rgb(202, 60, 60);
+    }
+
+    .button-warning {
+      background: rgb(223, 117, 20);
+    }
+
+    .button-secondary {
+      background: rgb(66, 184, 221);
+    }
+  </style>
+</head>
+  <body>
+  <div class="header">
+  <div class="home-menu pure-menu pure-menu-horizontal">
+    <a class="pure-menu-heading" href="">Child Check In</a>
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item">
+        <%= link_to 'Staff Sign In', user_session_path, class: 'pure-button pure-button-primary', aria: { label: 'Staff Sign In' }, data: { turbo: false } %>
+      </li>
+      <li class="pure-menu-item">
+        <%= link_to 'Staff Sign Up', new_user_registration_path, class: 'pure-button pure-button-secondary', aria: { label: 'Staff Sign Up' } %>
+      </li>
+      <% if user_signed_in? && current_user.admin? %>
+        <li class="pure-menu-item">
+          <%= link_to 'Admin Dashboard', admin_dashboard_path, class: 'pure-button pure-button-primary', aria: { label: 'Admin Dashboard' } %>
+        </li>
+      <% end %>
+    </ul>
+   <% if user_signed_in? %>
+      <div class="user-info">
+        <p>Current member signed in:</p>
+        <p class="user-email"><%= current_user.email %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+  <main>
+    <h1>Welcome to First Church of Awesome</h1>
+    <p>Your spiritual home for growth and community.</p>
+    <p>Welcome to our Children Ministry page.</p>
+    <p>
+      If you have been here before, you can log in and, if needed, update any information about your children.
+      <br>
+      If you are a first-time guest, one of our staff members would love to assist you if you have any questions, or you can create your own account and add your children.
+    </p>
+    <div class="button-container">
+      <%= link_to 'Parent Login', new_parent_session_path, class: 'action-button' %>
+      <%= link_to 'New Parent Account', new_parent_registration_path, class: 'action-button' %>
+    </div>
+  </main>
+  <div style="text-align: center; margin-right: 20px; margin-top: 20px;">
+    <%= link_to 'Return to Home', root_path, class: 'return-home-button' %>
+  </div>
+</body>
+</html>

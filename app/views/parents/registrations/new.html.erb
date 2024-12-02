@@ -1,39 +1,39 @@
-<h2>Sign Up as a Parent</h2>
+<h2> Add New Parent</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<form action="/parents" method="post" data-turbo="false" class="pure-form pure-form-aligned">
+ <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <fieldset>
+    <div class="field">
+      <label for="first_name">First Name</label><br />
+      <input type="first_name" name="parent[first_name]" id="first_name">
+    </div>
+    <div class="field">
+      <label for="last_name">Last Name</label><br />
+      <input type="last_name" name="parent[last_name]" id="last_name">
+    </div>
+     <div class="field">
+      <label for="phone_number">Phone Number</label><br />
+      <input type="phone_number" name="parent[phone_number]" id="phone_number">
+    </div>
+    <div class="field">
+      <label for="user_email">Email</label><br />
+      <input type="email" name="parent[email]" id="parent_email">
+    </div>
+    <div class="field">
+      <label for="user_password">Password</label><br />
+      <input type="password" name="parent[password]" id="parent_password">
+    </div>
+     <div class="field">
+      <label for="password_confirmation">Password Confirmation</label><br />
+      <input type="password" name="parent[password_confirmation]" id="parent_password_confirm">
+    </div>
+    <div class="actions">
+      <input type="submit" value="Sign Up" class="pure-button pure-button-primary">
+    </div>
+     <div class="actions">
+   </fieldset>
+</form>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
-
-  <div class="field">
-  <%= f.label :phone_number %><br />
-  <%= f.text_field :phone_number, autocomplete: "phone_number" %>
+<div class="actions" style="text-align: left; margin-top: 20px;">
+  <%= link_to 'Back', ministry_path, class: 'pure-button pure-button-primary' %>
 </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %> <br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>

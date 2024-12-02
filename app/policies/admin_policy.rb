@@ -1,17 +1,13 @@
 class AdminPolicy < ApplicationPolicy
   def index?
-    user.admin?
+    admin?
   end
 
   def create?
-    user.admin?
+    admin?
   end
 
   def dashboard?
-    user.admin?
-  end
-
-  def show?
-    user.admin?
+    admin?
   end
 end

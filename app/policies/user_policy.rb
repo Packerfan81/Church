@@ -4,14 +4,19 @@ class UserPolicy < ApplicationPolicy
   end
 
   def add_child?
-    true
+    parent?
   end
 
   def create_child?
-    true
+    parent?
   end
 
-  def destroy? # Add this method
-    user.admin? # Only allow admins to delete users
+  def new?
+    user.admin? || !user.present?
+  end
+
+
+  def destroy?
+    user.admin? && !record.admin?
   end
 end

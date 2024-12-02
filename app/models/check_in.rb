@@ -1,9 +1,27 @@
-# app/models/check_in.rb
 class CheckIn < ApplicationRecord
+  # Associations
   belongs_to :child
-  validates :check_in_time, presence: true
-end
+  belongs_to :parent, optional: true
 
-def full_name
-    "#{first_name} #{last_name}"
+  # Callbacks
+  before_validation :set_full_name_and_email
+
+  # Validations
+  validates :child_id, :check_in_time, presence: true
+  validates :parent_id, presence: true, if: -> { parent.present? }
+
+  # Scopes
+  scope :active, -> { where(check_out_time: nil) }
+
+  private
+
+  def set_full_name_and_email
+    if parent.present?
+      self.full_name = parent.full_name
+      self.parent_email = parent.email
+    else
+      self.full_name = nil
+      self.parent_email = nil
+    end
+  end
 end

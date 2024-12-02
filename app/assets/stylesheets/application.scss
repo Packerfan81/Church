@@ -1,0 +1,174 @@
+// /*
+// * This is a manifest file that'll be compiled into application.css, which will include all the files
+// * listed below.
+// *
+// * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+// * vendor/assets/stylesheets directory can be referenced here using a relative path.
+// *
+// * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+// * compiled file so the styles you add here take precedence over styles defined in any other CSS
+// * files in this directory. Styles in this file should be added after the last require_* statement.
+// * It is generally better to create a new file per style scope.
+// *
+// *= require_tree .
+// *= require_self
+
+// /* Global Styles */
+// body {
+//   font-family: Arial, sans-serif; /* Unified font-family */
+//   margin: 0;
+//   padding: 0;
+//   background-image: url('<%= asset_path("church.jpg") %>');
+//   background-size: cover;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+// }
+
+// /* Header */
+// header {
+//   position: relative;
+//   padding: 50px 0; /* Space for semi-circle tenants */
+//   text-align: center;
+//   background-color: #f8f9fa;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// /* Church Tenants */
+// .church-tenants {
+//   flex: 1;
+//   text-align: left;
+// }
+
+// .church-tenants h2 {
+//   margin-bottom: 10px;
+// }
+
+// .church-tenants ul {
+//   list-style-type: none;
+//   padding: 0;
+//   display: flex;
+//   gap: 15px;
+// }
+
+// .church-tenants li {
+//   font-size: 18px;
+// }
+
+// /* Church Tenants Semi-Circle */
+// .church-tenants-wrapper {
+//   position: relative;
+//   height: 150px; /* Adjust the height of the semi-circle */
+//   width: 100%;
+//   overflow: hidden; /* Hide excess circle */
+// }
+
+// .church-tenants ul {
+//   list-style: none;
+//   padding: 0;
+//   margin: 0;
+//   position: absolute;
+//   width: 300px; /* Circle size */
+//   height: 300px; /* Match height to width for perfect circle */
+//   top: -150px; /* Move up to create semi-circle */
+//   left: 50%;
+//   transform: translateX(-50%);
+//   border-radius: 50%; /* Creates the circular effect */
+// }
+
+// .church-tenants li {
+//   position: absolute;
+//   width: 100px; /* Size of each tenant */
+//   text-align: center;
+//   transform-origin: center bottom;
+//   font-size: 18px;
+// }
+
+// .church-tenants li:nth-child(1) {
+//   transform: rotate(-60deg) translateY(-100%);
+// }
+
+// .church-tenants li:nth-child(2) {
+//   transform: rotate(-30deg) translateY(-100%);
+// }
+
+// .church-tenants li:nth-child(3) {
+//   transform: rotate(0deg) translateY(-100%);
+// }
+
+// .church-tenants li:nth-child(4) {
+//   transform: rotate(30deg) translateY(-100%);
+// }
+
+// /* Church Name */
+// header .church-name {
+//   flex: 1;
+//   text-align: center;
+//   font-size: 32px; /* Larger for visibility */
+//   font-weight: bold;
+//   margin: 10px 0;
+// }
+
+// /* Staff Login */
+// .staff-login {
+//   flex: 1;
+//   text-align: right;
+//   position: absolute;
+//   top: 10px;
+//   right: 20px;
+// }
+
+// .staff-login a {
+//   display: inline-block;
+//   color: white;
+//   background-color: #007bff;
+//   padding: 10px 15px;
+//   border-radius: 5px;
+//   text-decoration: none;
+// }
+
+// .staff-login a:hover {
+//   background-color: #0056b3;
+// }
+
+// /* Main Content */
+// main {
+//   text-align: center;
+//   padding: 50px 20px;
+// }
+
+// main h1 {
+//   font-size: 36px;
+//   color: #333;
+// }
+
+// main p {
+//   font-size: 18px;
+//   color: #666;
+// }
+
+// main a.btn {
+//   display: inline-block;
+//   margin-top: 20px;
+//   color: white;
+//   background-color: #007bff;
+//   padding: 10px 15px;
+//   border-radius: 5px;
+//   text-decoration: none;
+// }
+
+// main a.btn:hover {
+//   background-color: #0056b3;
+// }
+
+// /* Footer */
+// footer {
+//   background-color: #f8f9fa;
+//   padding: 20px;
+//   text-align: center;
+//   margin-top: auto; /* Push footer to the bottom of the page */
+// }

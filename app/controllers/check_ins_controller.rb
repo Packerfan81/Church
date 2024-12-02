@@ -1,58 +1,51 @@
 class CheckInsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_check_in, only: [:edit, :update]
   def new
+    @child = Child.find_by(id: params[:child_id]) # Use `find_by` to avoid exceptions
+    if @child.nil?
+      redirect_to parents_dashboard_path, alert: 'Child not found.' and return
+    end
 
+    @check_in = CheckIn.new
   end
 
   def create
     @check_in = CheckIn.new(check_in_params)
+    @check_in.parent = current_parent if current_parent
+    @check_in.full_name = current_parent.full_name
+    @check_in.check_in_time = Time.current
     if @check_in.save
+      # Update child status to checked in
+      @check_in.child.update(checked_in: true)
 
-      generate_name_tag(@check_in)
-
-      # Send email (if chosen)
-      send_check_in_email(@check_in) if @check_in.send_email
-
-      redirect_to check_in_path(@check_in), notice: "Check-in successful!"
+      # Handle notifications and tag generation
+      if handle_notifications_and_tags(@check_in)
+        redirect_to parents_dashboard_path, notice: "#{@check_in.child.full_name} has been checked in successfully!"
+      else
+        flash.now[:alert] = "Check-in was successful, but there was an issue with notifications or tag generation."
+        redirect_to parents_dashboard_path
+      end
     else
+      flash.now[:alert] = "Unable to check in. Please try again."
       render :new
-    end
-  end
-
-  def edit
-    authorize @check_in # Authorize using Pundit
-  end
-
-  def update
-    authorize @check_in # Authorize using Pundit
-    if @check_in.update(check_in_params)
-      redirect_to check_in_path(@check_in), notice: "Check-in updated successfully."
-    else
-      render :edit
     end
   end
 
   private
 
-  def set_check_in
-    @check_in = CheckIn.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to check_ins_path, alert: "Check-in not found."
-  end
-
   def check_in_params
-    params.require(:check_in).permit(:child_id, :send_email)
+    params.require(:check_in).permit(:child_id, :note)
   end
 
-  def generate_name_tag(check_in)
-   pdf = Prawn::Document.new
-    pdf.text check_in.child.full_name, size: 24, align: :center
-    pdf.text "Classroom: #{check_in.child.classroom}", size: 18, align: :center
-        send_data pdf.render, filename: "#{check_in.child.full_name}_name_tag.pdf", type: "application/pdf"
-  end
-
-  def send_check_in_email(check_in)
-    CheckInMailer.check_in_confirmation(check_in).deliver_later
+  # Separate method to handle notifications and tags
+  def handle_notifications_and_tags(check_in)
+    begin
+      ParentMailer.check_in_notification(check_in).deliver_now
+      HardCopyTagGenerator.new(check_in).generate
+      NameTagGenerator.generate(check_in.child)
+      true
+    rescue StandardError => e
+      Rails.logger.error("Check-in notifications or tags failed: #{e.message}")
+      false
+    end
   end
 end

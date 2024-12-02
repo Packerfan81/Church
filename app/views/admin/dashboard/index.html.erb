@@ -1,0 +1,270 @@
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    background-image: url('<%= asset_path("church.jpg") %>');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header {
+    background-color: rgba(248, 249, 250, 0.8);
+    padding: 10px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background-color: #a71d2a;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background-color: #1e7e34;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    color: white;
+  }
+
+  .btn[disabled] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+</style>
+
+<h1>Admin Dashboard</h1>
+<%= link_to "Return to Home", root_path, class: "btn btn-secondary" %>
+
+<!-- Users Section -->
+<h2>Users</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Admin</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @users.present? %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.admin? ? 'Yes' : 'No' %></td>
+          <td class="button-group">
+            <%= link_to 'Edit', edit_admin_user_path(user.id), class: 'btn btn-primary' %>
+            <% if policy(user).destroy? && !user.admin? %>
+              <%= form_with(url: admin_user_path(user.id), method: :delete, local: true) do %>
+                <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete this user?">
+                  Delete
+                </button>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="4" style="text-align: center;">No users found.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Parents Section -->
+<h2>Parents</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @parents.present? %>
+      <% @parents.each do |parent| %>
+        <tr>
+          <td><%= parent.full_name %></td>
+          <td><%= parent.email %></td>
+          <td><%= parent.phone_number || "N/A" %></td>
+          <td class="button-group">
+            <%= link_to 'Edit', edit_admin_parent_path(parent.id), class: 'btn btn-primary' %>
+            <% if policy(parent).destroy? %>
+              <%= form_with(url: admin_parent_path(parent), method: :delete) do %>
+                <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete this parent?">
+                  Delete
+                </button>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="4" style="text-align: center;">No parents found.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Children Section -->
+<h2>Children</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th style="text-align: center;">Age</th> <!-- Center-align the header -->
+      <th style="text-align: center;">Checked In</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @children.each do |child| %>
+      <tr>
+        <td><%= child.first_name %> <%= child.last_name %></td>
+        <td style="text-align: center; vertical-align: middle;"><%= child.age %></td> <!-- Center-align age -->
+        <td style="text-align: center; vertical-align: middle;">
+          <% last_check_in = child.check_ins.order(created_at: :desc).first %>
+          <% if last_check_in&.check_out_time.nil? || last_check_in&.check_out_time >= 1.hour.ago %>
+            <button class="btn btn-success" disabled>Yes</button>
+          <% else %>
+            <button class="btn btn-danger" disabled>No</button>
+          <% end %>
+        </td>
+        <td>
+          <div class="button-group" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <%= link_to 'Edit', edit_admin_child_path(child.id), class: 'btn btn-primary' %>
+            <%= form_with(url: admin_child_path(child), method: :delete, local: true) do %>
+              <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete this child?">
+                Delete
+              </button>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<!-- Check-Ins Section -->
+
+<h2>Check-ins</h2>
+
+  <table style="width: 100%; margin: ">
+    <thead>
+      <tr>
+        <th>Child</th>
+        <th>Parent</th>
+        <th>Check-In Time</th>
+        <th>Check-Out Time</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @check_ins.present? %>
+        <% @check_ins.each do |check_in| %>
+          <tr>
+            <!-- Ensure child and parent exist to avoid errors -->
+            <td><%= check_in.child&.full_name || 'Unknown Child' %></td>
+            <td><%= check_in.parent&.full_name || 'Unknown Parent' %></td>
+            <td><%= check_in.check_in_time.strftime('%Y-%m-%d %H:%M:%S') %></td>
+
+              <% if check_in.check_out_time.present? %>
+                <%= check_in.check_out_time.strftime('%Y-%m-%d %H:%M:%S') %>
+              <% else %>
+
+              <% end %>
+            </td>
+            <td>
+              <% if check_in.check_out_time.nil? %>
+                <%= button_to 'Check Out', admin_check_outs_path(check_in_id: check_in.id),
+                              method: :post,
+                              class: 'btn btn-success',
+                              data: { confirm: "Are you sure you want to check out #{check_in.child&.full_name || 'this child'}?" } %>
+              <% else %>
+                <span class="btn btn-secondary" disabled>Already Checked Out</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="5" style="text-align: center;">No check-ins found.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our Services</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%; /* Full height */
+      font-family: Arial, sans-serif;
+      background-image: url('<%= asset_path("church.jpg") %>');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    header {
+      background-color: rgba(248, 249, 250, 0.8);
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: black;
+      margin: 20px 0;
+    }
+
+    .services-container {
+      display: flex;
+      justify-content: space-around; /* Evenly space items horizontally */
+      align-items: center; /* Vertically center items */
+      gap: 20px; /* Add space between items */
+      height: 70vh; /* Ensure enough height to center items within the page */
+    }
+
+    .service-item {
+  font-size: 2rem;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 200px; /* Set a consistent height */
+  justify-content: space-between; /* Ensure spacing is consistent */
+}
+
+    .service-title {
+      font-size: 1.8rem;
+      color: black;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .info-box, .clickable-box {
+      padding: 10px;
+      border: 1px solid #007bff;
+      background-color: rgba(0, 123, 255, 0.1);
+      font-size: 1rem;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      background-color: blue;
+      width: 100%; /* Match the width of the service item */
+    }
+
+    .info-box {
+      background-color: rgba(248, 249, 250, 0.8);
+      color: gray;
+      border: 1px solid #ccc;
+    }
+
+    .clickable-box:hover {
+      background-color: rgba(0, 123, 255, 0.2);
+    }
+
+  .smaller-text {
+  font-size: 1.0rem;
+  color: black;
+  max-width: 150px;
+  text-align: center;
+}
+
+    .return-home-button {
+      display: inline-block;
+      margin: 2in auto 0;
+      color: white;
+      background-color: #007bff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .return-home-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1>Our Services</h1>
+    </div>
+  </header>
+
+  <div class="services-container">
+    <div class="service-item">
+      <div class="service-title">Discipleship Groups</div>
+      <div class="info-box">More information to Follow</div>
+    </div>
+    <div class="service-item">
+      <div class="service-title">Children Ministry</div>
+      <%= link_to 'Click for Children Ministry', ministry_path, class: 'clickable-box' %>
+
+    </div>
+    <div class="service-item">
+      <div class="service-title">Live Connection Groups</div>
+      <div class="info-box">More information to Follow</div>
+    </div>
+  </div>
+
+  <%= link_to 'Return to Home', root_path, class: 'return-home-button' %>
+</body>
+</html>

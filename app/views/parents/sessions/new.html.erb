@@ -1,0 +1,23 @@
+<h2>Parent Log In</h2>
+
+<form action="/parents/sign_in" method="post" data-turbo="false" class="pure-form pure-form-aligned">
+ <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <fieldset>
+    <div class="field">
+      <label for="parent_email">Email</label><br />
+      <input type="email" name="parent[email]" id="parent_email">
+    </div>
+    <div class="field">
+      <label for="parent_password">Password</label><br />
+      <input type="password" name="parent[password]" id="parent_password">
+    </div>
+    <div class="actions">
+      <input type="submit" value="Log in" class="pure-button pure-button-primary">
+    </div>
+     <div class="actions">
+   </fieldset>
+</form>
+
+<div class="actions" style="text-align: left; margin-top: 20px;">
+  <%= link_to 'Back', ministry_path, class: 'pure-button pure-button-primary' %>
+</div>

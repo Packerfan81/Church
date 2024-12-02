@@ -1,69 +1,60 @@
 class Child < ApplicationRecord
-  belongs_to :parent
+  # Associations
+  belongs_to :parent, foreign_key: 'parent_email', primary_key: 'email', class_name: 'Parent'
   belongs_to :classroom
-  before_save :assign_classroom
+  has_many :check_ins, dependent: :destroy
+  before_validation :assign_classroom
 
+  # Virtual attributes
+  attr_accessor :send_email
+
+  # Validations
   validates :first_name, :last_name, :age, :grade, :food_allergies,
             :special_medical_needs, :emergency_contact, presence: true
-
   validates :age, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     message: "must be a positive integer"
   }
 
-  VALID_GRADES = %w(Nur K 1st 2nd 3rd 4th 5th 6th 1 2 3 4 5 6)
-  validates :grade, inclusion: {
-    in: VALID_GRADES,
-    message: "%{value} is not a valid grade"
-  }
+  def destroy?
+    user.is_a?(Parent) && record.parent_email == user.email
+  end
 
+  enum status: { pending: 0, checked_in: 0, checked_out: 0 }
+
+  # Constant for classroom age ranges
   CLASSROOM_AGE_RANGES = {
-    "Nursery" => 0..2,    # Ages 0-2
-    "Kindergarten" => 3..4, # Ages 3-4
-    "1st" => 5..6,        # Ages 5-6
-    "2nd" => 7..7,        # Age 7
-    "3rd" => 8..8,        # Age 8
-    "4th" => 9..9,        # Age 9
-    "5th" => 10..10,       # Age 10
-    "6th" => 11..12       # Ages 11-12
+    "Nursery" => 0..2,
+    "Kindergarten" => 3..4,
+    "1st" => 5..6,
+    "2nd" => 7..7,
+    "3rd" => 8..8,
+    "4th" => 9..9,
+    "5th" => 10..10,
+    "6th" => 11..12
   }
 
+  # Callbacks
+
+
+  # Methods
   def full_name
     "#{first_name} #{last_name}"
   end
 
-  def full_name_cont
-    [first_name, last_name].join(' ')
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    [
-      "age",
-      "created_at",
-      "emergency_contact",
-      "first_name",
-      "food_allergies",
-      "grade",
-      "id",
-      "last_name",
-      "parent_id",
-      "special_medical_needs",
-      "updated_at",
-      "full_name_cont"
-    ]
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["classroom", "parent"]
-  end
-
+  # Private methods
   private
 
   def assign_classroom
     CLASSROOM_AGE_RANGES.each do |classroom_name, age_range|
       if age_range.include?(age)
-        self.classroom = Classroom.find_by(name: classroom_name)
+        self.grade = classroom_name  # Set grade based on age
+        self.classroom = Classroom.find_by(name: classroom_name)  # Find corresponding classroom
+
+        if self.classroom.nil?
+          errors.add(:classroom, "not found for age group #{age}")
+        end
         break
       end
     end

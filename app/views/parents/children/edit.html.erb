@@ -1,0 +1,41 @@
+<h1>Edit Child Details</h1>
+
+<form action="<%= parents_child_path(@child) %>" method="post" class="pure-form pure-form-aligned">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="patch">
+  <fieldset>
+    <div class="field">
+      <label for="child_first_name">First Name</label><br />
+      <input type="text" name="child[first_name]" id="child_first_name" value="<%= @child.first_name %>" class="form-control">
+    </div>
+
+    <div class="field">
+      <label for="child_last_name">Last Name</label><br />
+      <input type="text" name="child[last_name]" id="child_last_name" value="<%= @child.last_name %>" class="form-control">
+    </div>
+
+    <div class="field">
+      <label for="child_age">Age</label><br />
+      <input type="number" name="child[age]" id="child_age" value="<%= @child.age %>" class="form-control">
+    </div>
+
+    <div class="field">
+      <label for="child_food_allergies">Food Allergies</label><br />
+      <input type="text" name="child[food_allergies]" id="child_food_allergies" value="<%= @child.food_allergies %>" class="form-control">
+    </div>
+
+    <div class="field">
+      <label for="child_special_medical_needs">Special Medical Needs</label><br />
+      <input type="text" name="child[special_medical_needs]" id="child_special_medical_needs" value="<%= @child.special_medical_needs %>" class="form-control">
+    </div>
+
+    <div class="field">
+      <label for="child_emergency_contact">Emergency Contact</label><br />
+      <input type="text" name="child[emergency_contact]" id="child_emergency_contact" value="<%= @child.emergency_contact %>" class="form-control">
+    </div>
+
+    <div class="actions">
+      <input type="submit" value="Update Child" class="pure-button pure-button-primary">
+    </div>
+  </fieldset>
+</form>

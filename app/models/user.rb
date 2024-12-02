@@ -1,29 +1,19 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :trackable, :confirmable
 
-  has_one :admin
-  has_one :parent
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
   validates :first_name, :last_name, presence: true
-
-  def full_name
-    "#{first_name} #{last_name}"
-  end
+  validates :password, length: { minimum: 6 }, if: -> { password.present? }
+  validates :email, presence: true, uniqueness: true
 
   def admin?
-    admin.present?
+    self.admin
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    [
-      "created_at",
-      "email",
-      "first_name",
-      "id",
-      "last_name",
-      "updated_at"
-    ]
+  # Instance Methods
+  def full_name
+    "#{first_name} #{last_name}"
   end
 end

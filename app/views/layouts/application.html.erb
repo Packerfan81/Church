@@ -1,127 +1,190 @@
-
+<!DOCTYPE html>
 <html>
+
 <head>
-  <title>Welcome to First Church of Awesome</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Church Website</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
-  <style>
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url(<%= image_path('church.jpg') %>);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Ensure the content fits without scrolling */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
 
-  header h1, header p { /* Target h1 and p within the header */
-  color: maroon;
+</head>
+<style>
+  html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure full height for the body and html */
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-image: url('<%= asset_path("church.jpg") %>'); /* Ensure the correct path */
+  background-size: cover; /* Scale image to cover entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling of the image */
+  background-attachment: fixed; /* Keeps the image fixed during scrolling */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height viewport */
+}
+
+/* Additional Styles */
+header {
+  background-color: rgba(248, 249, 250, 0.8); /* Slight transparent background for readability */
+  padding: 10px 0;
+}
+
+main {
+ flex: 1; /* Ensures the main content expands to available space */
+  display: flex; /* Enable flexbox for centering */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center; /* Vertically center the content */
+  align-items: center; /* Horizontally center the content */
+  text-align: center; /* Center-align text */
+  color: black; /* Ensure text is readable on the background */
+  padding: 20px; /* Optional: Add some padding for spacing */
+}
+
+footer {
+  background-color: rgba(248, 249, 250, 0.8); /* Slight transparent background for readability */
+  padding: 20px;
   text-align: center;
 }
 
-  .links-table {
-    width: 40%;
-    margin: 0 auto 20px auto;
-    border-collapse: collapse;
-  }
-
-  .links-table td {
-    width: 50%; /* Increased cell width */
-    padding: 10px;
-    border: 1px solid #ccc;
-    vertical-align: top;
-    text-align: center;
-  }
-
-    .links-table h2 {
-      text-align: center;
-      margin-top: 6px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-
-    .links-table ul {
-      padding: 10px 0;
-      .links-table ul
-      padding: 10px 0;
-      list-style: none; /* Remove bullet points */
+.church-tenants ul {
+  display: flex;
+  justify-content: space-between; /* Evenly space tenants across the screen */
+  list-style: none;
+  padding: 0 20px; /* Add padding for spacing from screen edges */
+  margin: 0;
 }
-    }
 
-    .links-table li {
-      margin-bottom: 15px;
-    }
+.church-tenants li {
+  font-size: 18px;
+  color: black; /* Black font color */
+  font-weight: bold;
+}
+ .home-menu {
+      padding: 0.5em;
+      text-align: center;
+      box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+  }
+  .home-menu {
+      background: #2d3e50;
+  }
+  .pure-menu.pure-menu-fixed {
+      /* Fixed menus normally have a border at the bottom. */
+      border-bottom: none;
+      /* I need a higher z-index here because of the scroll-over effect. */
+      z-index: 4;
+  }
 
-    footer {
-      margin-top: auto; /* Push footer to the bottom */
-    }
-  </style>
-</head>
+  .home-menu .pure-menu-heading {
+      color: white;
+      font-weight: 400;
+      font-size: 120%;
+  }
 
+  .home-menu .pure-menu-selected a {
+      color: white;
+  }
+
+  .home-menu a {
+      color: #6FBEF3;
+  }
+  .home-menu li a:hover,
+  .home-menu li a:focus {
+      background: none;
+      border: none;
+      color: #AECFE5;
+  }
+.user-info {
+  position: absolute; /* Position the user info independently */
+  top: 10px; /* Align it 10px from the top of the screen */
+  right: 20px; /* Align it 20px from the right edge of the screen */
+  font-size: 0.7em;
+  color: #fff; /* Match the header's text color */
+  text-align: right;
+}
+
+.user-info p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5; /* Add spacing between lines for readability */
+}
+
+.user-email {
+  font-weight: bold; /* Highlight the email address */
+}
+</style>
+<%= javascript_importmap_tags %>
 <body>
-  <header>
-    <nav>
-      <ul class="nav-list"></ul>
-    </nav>
-    <h1>Welcome to First Church of Awesome</h1>
-    <p>We are a community of believers dedicated to spreading love and joy.</p>
 
-    <table class="links-table">
-      <tr>
-        <td>
-          <h2>Parents</h2>
-          <ul>
-            <li><%= link_to "Create a Parent Account", new_parent_registration_path, data: { turbo: false } %></li>
-            <li><%= link_to "Parent Login", new_parent_session_path %></li>
-          </ul>
-        </td>
-        <td>
-          <h2>Users</h2>
-          <ul>
-            <%= link_to "Sign Up", new_user_registration_path, data: { turbo: false } %>
-            <li><%= link_to "User Login", new_user_session_path %></li>
-          </ul>
-        </td>
-      </tr>
-    </table>
-  </header>
 
-  <div class="container">
-    <section>
-      <h2>Service Times</h2>
-      <ul>
-        <li>Sunday Service: 10:00 AM</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Get Involved</h2>
-      <p>Encourage visitors to join your community and participate in various activities.</p>
-    </section>
-
-    <section>
-      <h2>Contact Us</h2>
-      <p>If you have any questions or inquiries, please feel free to reach out to us:</p>
-      <ul>
-        <li>Email: jaye.engelhardt@protonmail.com</li>
-        <li>Phone: 555-123-4567</li>
-        <li>Address: 123 Church St, City, Country</li>
-      </ul>
-    </section>
+<div class="header">
+  <div class="home-menu pure-menu pure-menu-horizontal">
+    <a class="pure-menu-heading" href="">Child Check In</a>
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item">
+        <%= link_to 'Staff Sign In', user_session_path, class: 'pure-button pure-button-primary', aria: { label: 'Staff Sign In' }, data: { turbo: false } %>
+      </li>
+      <li class="pure-menu-item">
+        <%= link_to 'Staff Sign Up', new_user_registration_path, class: 'pure-button pure-button-secondary', aria: { label: 'Staff Sign Up' } %>
+      </li>
+      <% if user_signed_in? && current_user.admin? %>
+        <li class="pure-menu-item">
+          <%= link_to 'Admin Dashboard', admin_dashboard_path, class: 'pure-button pure-button-primary', aria: { label: 'Admin Dashboard' } %>
+        </li>
+      <% end %>
+    </ul>
+   <% if user_signed_in? %>
+      <div class="user-info">
+        <p>Current member signed in:</p>
+        <p class="user-email"><%= current_user.email %></p>
+      </div>
+    <% end %>
   </div>
+</div>
+<% if user_signed_in? %>
+  <p>Admin status: <%= current_user.admin? %></p>
+  <% if current_user.admin? %>
+    <% else %>
+    <p>You are not an admin.</p>
+  <% end %>
+<% else %>
+  <p>No user signed in.</p>
+<% end %>
 
-  <footer>
-    &copy; <%= Time.current.year %> First Church of Awesome
-  </footer>
+
+<div class="content-wrapper">
+    <div class="content">
+<div class="church-tenants">
+      <ul>
+        <li>Encounter God</li>
+        <li>Experience Community</li>
+        <li>Equip Disciples</li>
+        <li>Engage the World</li>
+      </ul>
+    </div>
+
+  <main>
+    <h1>Welcome to First Church of Awesome</h1>
+    <p>Your spiritual home for growth and community.</p>
+   <%= link_to 'Click for Services', services_path, class: 'pure-button  pure-button-primary', style: 'font-size:2em' %>
+  </main>
+</div>
+</div>
+  <footer style="position: relative; background-color: rgba(248, 249, 250, 0.8); padding: 20px; text-align: center;">
+<% if user_signed_in? %>
+
+<%= button_to 'Log Out', destroy_user_session_path, method: :delete, class: 'btn btn-danger', aria: { label: 'Log Out' }, style: 'position: absolute; right: 20px; bottom: 20px; font-size: 0.9rem; padding: 6px 9px; color: white; background-color: darkblue; border: none; border-radius: 5px; cursor: pointer;' %>
+   <p>Signed in as: <%= current_user.email %></p>
+  <% end %>
+
   <%= yield %>
+</footer>
 </body>
+
 </html>

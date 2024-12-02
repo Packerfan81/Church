@@ -3,28 +3,31 @@
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
 
-# Create a user first
-user = User.create!(
-  first_name: 'Jaye',
-  last_name: 'Engelhardt',
-  email: 'jaye.engelhardt@protonmail.com',
-  password: 'password'
-)
+# Seed an admin user
+user = User.find_or_initialize_by(email: 'jaye.engelhardt@p.com')
 
-# Then, create the admin and associate it with the user
-Admin.create!(
-  first_name: 'Jaye',
-  last_name: 'Engelhardt',
-  email: 'jaye.engelhardt@protonmail.com',
-  password: 'password',
-  user: user
-)
+if user.new_record?
+  user.update!(
+    first_name: 'Jaye',
+    last_name: 'Engelhardt',
+    password: '123456789',
+    admin: true
+  )
+  puts "User created as admin"
+else
+  user.update!(
+    first_name: 'Jaye',
+    last_name: 'Engelhardt',
+    admin: true # Ensures the user remains an admin if already created
+  )
+  puts "User updated to admin"
+end
 
-Classroom.create!(name: "Nursery")
-Classroom.create!(name: ["Kindergarten", "K"]) # Comma was missing here
-Classroom.create!(name: ["1st", "1"])
-Classroom.create!(name: ["2nd", "2"])
-Classroom.create!(name: ["3rd", "3"])
-Classroom.create!(name: ["4th", "4"])
-Classroom.create!(name: ["5th", "5"])
-Classroom.create!(name: ["6th", "6"])
+# Seed classrooms
+classrooms = %w[Nursery Kindergarten 1st 2nd 3rd 4th 5th 6th]
+
+classrooms.each do |classroom_name|
+  Classroom.find_or_create_by!(name: classroom_name)
+  puts "Classroom '#{classroom_name}' created or already exists"
+end
+

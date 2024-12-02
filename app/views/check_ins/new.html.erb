@@ -1,18 +1,12 @@
-<h1>Check In</h1>
+<h1>Check In Child</h1>
+<p>Child: <%= @child.full_name %></p>
 
-<%= form_with(model: @check_in, url: check_ins_path) do |form| %>
-  </div>
-  <div>
-    <%= form.label :child_id %>
-    <%= form.collection_select :child_id, Child.all, :id, :full_name %>
-  </div>
+<%= form_with(model: @check_in, url: check_ins_path, local: true) do |f| %>
+  <%= f.hidden_field :child_id, value: @child.id %>
 
   <div>
-    <%= form.submit "Check In" %>
+    <%= f.submit "Check In", class: "btn btn-primary" %>
   </div>
-
-  <div>
-  <%= form.label :send_email, "Send confirmation email?" %>
-  <%= form.check_box :send_email %>
-</div>
 <% end %>
+
+<%= link_to 'Back to Dashboard', parents_dashboard_path, class: 'btn btn-secondary' %>

@@ -18,5 +18,25 @@
   "scope": "/",
   "description": "ChurchCheckIn.",
   "theme_color": "red",
-  "background_color": "red"
+  "background_color": "red",
+
+  "short_name": "ChurchCheckIn",  // Add a short name for display on home screen
+  "screenshots": [  // Add screenshots for display in app stores
+    {
+      "src": "screenshot1.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshot2.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    }
+  ],
+  "display_override": [ "standalone", "window-control-overlay" ], // Customize display mode
+  "service_worker": {  // Configure service worker for offline functionality
+    "src": "service-worker.js",
+    "scope": "/",
+    "type": "module"
+  }
 }

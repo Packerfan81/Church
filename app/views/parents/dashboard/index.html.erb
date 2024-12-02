@@ -1,0 +1,161 @@
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    background-image: url('<%= asset_path("church.jpg") %>');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header {
+    background-color: rgba(248, 249, 250, 0.8);
+    padding: 10px 0;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: black;
+    padding: 20px;
+  }
+
+  footer {
+    background-color: rgba(248, 249, 250, 0.8);
+    padding: 20px;
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .actions a {
+    margin-right: 5px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background-color: #a71d2a;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background-color: #1e7e34;
+  }
+
+  .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  color: white;
+}
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+</style>
+
+<h1>Welcome, <%= current_parent.first_name || current_parent.email %></h1>
+<h2>Your Children</h2>
+
+<% if @children.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Checked In</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @children.each do |child| %>
+        <tr>
+          <td><%= child.first_name %> <%= child.last_name %></td>
+          <td style="text-align: center;"><%= child.age %></td>
+          <td style="text-align: center;">
+            <% if child.checked_in %>
+              <button class="btn btn-success" disabled>Yes</button>
+            <% else %>
+              <button class="btn btn-danger" disabled>No</button>
+            <% end %>
+          </td>
+          <td>
+            <div class="button-group" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <%= link_to 'Add a Child', new_parents_child_path(child), class: 'btn btn-primary' %>
+              <%= form_with(url: parents_child_path(child), method: :delete, local: true) do %>
+                <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete this child?">
+                  Delete
+                </button>
+              <% end %>
+              <%= link_to 'Check In', new_check_in_path(child_id: child.id), class: 'btn btn-success' %>
+
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No children found. <%= link_to 'Add a Child', new_parents_child_path, class: 'btn btn-success' %></p>
+<% end %>
+
+<div style="margin-top: 20px; text-align: left;">
+  <%= link_to 'Return to Home', root_path, class: 'btn btn-primary', style: 'margin-right: 10px;' %>
+</div>

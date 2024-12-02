@@ -1,0 +1,22 @@
+<h2>Staff Sign In</h2>
+
+<form action="/users/sign_in" method="post" data-turbo="false" class="pure-form pure-form-aligned">
+ <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <fieldset>
+    <div class="field">
+      <label for="user_email">Email</label><br />
+      <input type="email" name="user[email]" id="user_email">
+    </div>
+    <div class="field">
+      <label for="user_password">Password</label><br />
+      <input type="password" name="user[password]" id="user_password">
+    </div>
+    <div class="actions" style="margin-top: 20px;">
+      <input type="submit" value="Log in" class="pure-button pure-button-primary">
+    </div>
+  </fieldset>
+</form>
+
+<div class="actions" style="text-align: right; margin-top: 20px;">
+  <%= link_to 'Back', root_path, class: 'pure-button pure-button-primary' %>
+</div>
