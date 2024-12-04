@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_02_090626) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_02_230539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,9 +62,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_090626) do
     t.boolean "checked_in"
     t.datetime "deleted_at"
     t.integer "status"
+    t.bigint "parent_id"
     t.index ["age"], name: "index_children_on_age"
     t.index ["classroom_id"], name: "index_children_on_classroom_id"
     t.index ["deleted_at"], name: "index_children_on_deleted_at"
+    t.index ["parent_email"], name: "index_children_on_parent_email"
   end
 
   create_table "classrooms", force: :cascade do |t|

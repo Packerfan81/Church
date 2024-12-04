@@ -62,3 +62,4 @@ class CheckOutsController < ApplicationController
   end
 
 end
+end

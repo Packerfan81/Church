@@ -4,7 +4,7 @@
 #
 
 # Seed an admin user
-user = User.find_or_initialize_by(email: 'jaye.engelhardt@p.com')
+user = User.find_or_initialize_by(email: 'jaye.engelhardt@protonmail.com')
 
 if user.new_record?
   user.update!(

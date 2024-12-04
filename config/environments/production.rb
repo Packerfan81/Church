@@ -12,6 +12,8 @@ Rails.application.configure do
   enable_starttls_auto: true
 }
 
+config.action_mailer.raise_delivery_errors = true
+config.log_level = :debug
 
   # Code is not reloaded between requests.
   config.enable_reloading = false

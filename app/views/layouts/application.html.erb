@@ -147,15 +147,7 @@ footer {
     <% end %>
   </div>
 </div>
-<% if user_signed_in? %>
-  <p>Admin status: <%= current_user.admin? %></p>
-  <% if current_user.admin? %>
-    <% else %>
-    <p>You are not an admin.</p>
-  <% end %>
-<% else %>
-  <p>No user signed in.</p>
-<% end %>
+
 
 
 <div class="content-wrapper">

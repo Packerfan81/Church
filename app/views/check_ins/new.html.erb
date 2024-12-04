@@ -1,12 +1,13 @@
 <h1>Check In Child</h1>
-<p>Child: <%= @child.full_name %></p>
+<% if @child.present? %>
+  <p>Child: <%= @child.full_name %></p>
+  <%= form_with(model: @check_in, url: check_ins_path, local: true) do |f| %>
+    <%= f.hidden_field :child_id, value: @child.id %>
 
-<%= form_with(model: @check_in, url: check_ins_path, local: true) do |f| %>
-  <%= f.hidden_field :child_id, value: @child.id %>
+    <%= f.submit "Check In" %>
+  <% end %>
+<% else %>
+  <p>Child not found.</p>
+  <%= link_to 'Back to Dashboard', parents_dashboard_path, class: 'btn btn-secondary' %>
 
-  <div>
-    <%= f.submit "Check In", class: "btn btn-primary" %>
-  </div>
 <% end %>
-
-<%= link_to 'Back to Dashboard', parents_dashboard_path, class: 'btn btn-secondary' %>

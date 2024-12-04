@@ -1,9 +1,11 @@
 class Child < ApplicationRecord
   # Associations
-  belongs_to :parent, foreign_key: 'parent_email', primary_key: 'email', class_name: 'Parent'
+  belongs_to :parent, optional: false
   belongs_to :classroom
   has_many :check_ins, dependent: :destroy
   before_validation :assign_classroom
+  before_save :sync_parent_email
+  attribute :send_email, :boolean, default: true # Default to sending emails
 
   # Virtual attributes
   attr_accessor :send_email
@@ -17,13 +19,9 @@ class Child < ApplicationRecord
     message: "must be a positive integer"
   }
 
-  def destroy?
-    user.is_a?(Parent) && record.parent_email == user.email
-  end
-
-  enum status: { pending: 0, checked_in: 0, checked_out: 0 }
-
   # Constant for classroom age ranges
+
+
   CLASSROOM_AGE_RANGES = {
     "Nursery" => 0..2,
     "Kindergarten" => 3..4,
@@ -35,28 +33,40 @@ class Child < ApplicationRecord
     "6th" => 11..12
   }
 
-  # Callbacks
 
 
   # Methods
   def full_name
-    "#{first_name} #{last_name}"
+     [first_name, last_name].compact.join(' ')
   end
 
   # Private methods
   private
 
-  def assign_classroom
-    CLASSROOM_AGE_RANGES.each do |classroom_name, age_range|
-      if age_range.include?(age)
-        self.grade = classroom_name  # Set grade based on age
-        self.classroom = Classroom.find_by(name: classroom_name)  # Find corresponding classroom
+  def sync_parent_email
+    self.parent_email = parent.email if parent.present?
+  end
 
-        if self.classroom.nil?
-          errors.add(:classroom, "not found for age group #{age}")
-        end
-        break
+   def should_send_email?
+    send_email.present? && send_email
+  end
+
+
+
+  def assign_classroom
+    return if age.blank?
+
+      CLASSROOM_AGE_RANGES.each do |classroom_name, age_range|
+        if age_range.include?(age)
+          self.grade = classroom_name  # Set grade based on age
+          self.classroom = Classroom.find_by(name: classroom_name)  # Find corresponding classroom
+
+          if self.classroom.nil?
+            errors.add(:classroom, "not found for age group #{age}")
+          end
+          break
+         end
       end
-    end
   end
 end
+
